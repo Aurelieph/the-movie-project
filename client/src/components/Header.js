@@ -44,12 +44,34 @@ height:100vh;
 z-index:100;
 `
 const HeaderBlock = styled.div`
+@keyframes opacity-in {
+  from {background-color: rgba(220, 220, 220, 0.4);}
+  to {background-color: rgba(220, 220, 220, 0.8)}
+}
+@keyframes opacity-out {
+  from {background-color: rgba(220, 220, 220, 0.8)}
+  to {background-color: rgba(220, 220, 220, 0.4);}
+}
 background-color: rgba(220, 220, 220, 0.4);
 height:var(--header-height);
 position: sticky;
     top: 0;
 z-index:100;
+width: 100vw;
+margin:0;
+
+animation: opacity-out 500ms;
+  animation-fill-mode: forwards;
+&:hover{
+
+animation-name: opacity-in;
+ animation-duration: 500ms;
+ animation-fill-mode: forwards
+
+}
 `
+
 const Title = styled.h1`
 padding: 20px  ;
+
 `
