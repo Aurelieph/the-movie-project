@@ -3,13 +3,13 @@ export const breakpoints = { tablet: "600px" };
 
 export default createGlobalStyle`
     :root {
-      /* --primary-color: 	#faefee;
+      --primary-color: 	#faefee;
       --secondary-color : #e0edf4;
-      --page-horizontal-padding: 20px;
-      --header-height: 50px;
-      --max-content-width: 1200px;
+      /* --page-horizontal-padding: 20px; */
+      --header-height: 80px;
+      /* --max-content-width: 1200px;
       --heading-font-family: Garamond, Helvetica, sans-serif;
-      --user-img-width: 120px; */
+      --user-img-width: 120px;  */
     }
 
 /* http://meyerweb.com/eric/tools/css/reset/ 
@@ -34,7 +34,8 @@ time, mark, audio, video {
 	padding: 0;
 	border: 0;
 	font-size: 100%;
-	font: inherit;
+	font-family: 'Poppins', sans-serif;
+
 	vertical-align: baseline;
 }
 /* HTML5 display-role reset for older browsers */
@@ -60,8 +61,5 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
-div{
-  background-color:blue;
-  height:100px;
-}
+
 `
