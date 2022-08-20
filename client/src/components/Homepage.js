@@ -1,4 +1,4 @@
-import bridesmaid from "./bridemaids.jpg"
+
 import deadpool from "./deadpool.jpg"
 import styled from "styled-components";
 import Header from "./Header";
@@ -16,7 +16,7 @@ return(
 export default Homepage
 
 const Wrapper = styled.div`
-
+margin:0;
 z-index:1;
 top:0px;
 `
