@@ -48,7 +48,7 @@ export default Header;
 const Wrapper = styled.div`
   position: relative;
   height: 80vh;
-  z-index: 10;
+
   margin: 0;
   width: 100vw;
   max-width: 100%;

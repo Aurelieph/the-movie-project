@@ -1,5 +1,5 @@
 
-import deadpool from "./deadpool.jpg"
+import deadpool from "./images/deadpool.jpg"
 import styled from "styled-components";
 import Header from "./Header";
 
