@@ -1,4 +1,5 @@
 import { createGlobalStyle } from "styled-components";
+import { NUMBER_THUMBNAILS } from "./Constants";
 export const breakpoints = { tablet: "600px" };
 
 export default createGlobalStyle`
@@ -9,6 +10,8 @@ export default createGlobalStyle`
       --header-height: 80px;
       --banner-height: 300px;
 			--profile-image-size:300px;
+			--thumbnails-banner-size:300px;
+			--number-thumbnails:${NUMBER_THUMBNAILS}
       /* --max-content-width: 1200px;
       --heading-font-family: Garamond, Helvetica, sans-serif;
       --user-img-width: 120px;  */

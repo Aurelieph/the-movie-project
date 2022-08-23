@@ -1,0 +1,3 @@
+const NUMBER_THUMBNAILS = 7;
+
+export {NUMBER_THUMBNAILS};

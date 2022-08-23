@@ -46,12 +46,15 @@ const Header = () => {
 export default Header;
 
 const Wrapper = styled.div`
-  position: relative;
-  height: 80vh;
 
+  position: absolute;
+  height: 90vh;
+  top: 0;
   margin: 0;
   width: 100vw;
   max-width: 100%;
+
+  /* background-color:yellow; */
 `;
 
 const HeaderBlock = styled.div`

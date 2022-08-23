@@ -24,7 +24,7 @@ const Profile = () => {
           <MovieName> {watching} </MovieName>
           <ProviderName>on Netflix</ProviderName>
         </ProfileInfo>
-        <ProfileBody>
+        <ProfileBody className="profile-body">
           <form onSubmit={handleSubmit}>
           <SearchField type="text" name="movie" />
           <input type="submit" hidden />
@@ -40,33 +40,33 @@ const Profile = () => {
 export default Profile;
 
 const Wrapper = styled.div`
-  position: absolute;
   top: var(--header-height);
 `;
 
 const Banner = styled.div`
-  position: absolute;
   width: 100%;
-  /* z-index: 2; */
+  z-index: -1;
   top: 0px;
   height: var(--banner-height);
   overflow: hidden;
   box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
 `;
 const BannerImg = styled.img`
-  width: 100%;
+  min-width:100vw;
+  /* width: 100%; */
   z-index: 2;
   top: 0px;
 `;
 
 const ProfileInfo = styled.div`
-  position: fixed;
+  position: static;
   display: flex;
   flex-direction: column;
   align-items: center;
-  top: calc(var(--banner-height) - var(--header-height));
-  margin: 0;
-  width: 30vw;
+  /* margin: calc(var(--banner-height) -  var(--profile-image-size) / 2 ); */
+  /* top: calc(var(--banner-height) -  var(--profile-image-size) / 2 ); */
+  margin: calc(var(--profile-image-size) / -2 ) 0 0 50px;
+  width: var(--profile-image-size);
 `;
 const Pseudo = styled.div`
   font-size: 32px;
@@ -92,13 +92,13 @@ const ProfilePicture = styled.div`
 `;
 
 const ProfileBody = styled.div`
-  position: fixed;
+  position: absolute;
   /* display: flex;
   flex-direction: column;
   align-items: center; */
   top: var(--banner-height);
   /* margin: 0 100px; */
-  left: 30vw;
+  left: calc(var(--profile-image-size) + 100px);
 `;
 
 const SearchField = styled.input``;
