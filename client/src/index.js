@@ -5,14 +5,22 @@ import App from "./components/App";
 import { GlobalProvider } from "./components/GlobalContext";
 import GlobalStyles from "./GlobalStyles";
 import reportWebVitals from "./reportWebVitals";
+import { Auth0Provider } from "@auth0/auth0-react";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   // <React.StrictMode>
+  <Auth0Provider
+    domain="what2watch.us.auth0.com"
+    clientId="DDPI68uXElQd5iJohJk1GVVExvlrHsVP"
+    // redirectUri="http://localhost:3000/"
+    redirectUri={window.location.origin}
+  >
     <GlobalProvider>
       <GlobalStyles />
       <App />
     </GlobalProvider>
+  </Auth0Provider>
   // </React.StrictMode>
 );
 

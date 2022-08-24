@@ -3,14 +3,23 @@ import styled from "styled-components";
 import Header from "./Header";
 import bridesmaid from "./images/bridemaids.jpg";
 import bridesmaid2 from "./images/bridemaids2.jpg";
+import { useAuth0 } from "@auth0/auth0-react";
+import CreationProfile from "./CreationProfile";
+
 
 const Profile = () => {
   const [watching, setWatching] = useState("Bridemaids");
-
+  const { user, isAuthenticated, isLoading } = useAuth0();
+  
   const handleSubmit = (e)=>{
     e.preventDefault()
     setWatching(e.target.movie.value)
   }
+
+  if (isLoading) {
+    return <div>Loading ...</div>;
+  }
+
   return (
     <div>
       <Header />
@@ -23,6 +32,7 @@ const Profile = () => {
           <Pseudo>Aurélie </Pseudo>is watching{" "}
           <MovieName> {watching} </MovieName>
           <ProviderName>on Netflix</ProviderName>
+
         </ProfileInfo>
         <ProfileBody className="profile-body">
           <form onSubmit={handleSubmit}>
@@ -30,9 +40,10 @@ const Profile = () => {
           <input type="submit" hidden />
 
           </form>
+
         </ProfileBody>
       </Wrapper>
-      ;
+      
     </div>
   );
 };
@@ -50,12 +61,13 @@ const Banner = styled.div`
   height: var(--banner-height);
   overflow: hidden;
   box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
+  margin-top: calc( var(--header-height) * -1);
 `;
 const BannerImg = styled.img`
   min-width:100vw;
   /* width: 100%; */
   z-index: 2;
-  top: 0px;
+
 `;
 
 const ProfileInfo = styled.div`
@@ -67,16 +79,20 @@ const ProfileInfo = styled.div`
   /* top: calc(var(--banner-height) -  var(--profile-image-size) / 2 ); */
   margin: calc(var(--profile-image-size) / -2 ) 0 0 50px;
   width: var(--profile-image-size);
+  z-index: 3;
 `;
 const Pseudo = styled.div`
   font-size: 32px;
   margin: 10px 0;
+  z-index: inherit;
 `;
 const MovieName = styled.div`
   font-size: 24px;
   margin: 20px 0 10px;
+  z-index: inherit;
 `;
-const ProviderName = styled.div``;
+const ProviderName = styled.div`
+  z-index: inherit;`;
 
 const ProfilePicture = styled.div`
   border-radius: 100%;
@@ -88,7 +104,8 @@ const ProfilePicture = styled.div`
   background-size: cover;
   background-position: center center;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px,
-    rgba(0, 0, 0, 0.3) 0px 18px 36px -18px; ;
+    rgba(0, 0, 0, 0.3) 0px 18px 36px -18px; 
+    z-index: 0;
 `;
 
 const ProfileBody = styled.div`
@@ -99,6 +116,7 @@ const ProfileBody = styled.div`
   top: var(--banner-height);
   /* margin: 0 100px; */
   left: calc(var(--profile-image-size) + 100px);
+  z-index: 3;
 `;
 
 const SearchField = styled.input``;

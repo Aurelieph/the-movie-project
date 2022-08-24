@@ -1,11 +1,17 @@
 import styled from "styled-components";
 import Header from "./Header";
+import LoginButton from "./LoginButton";
+import LogoutButton from "./LogoutButton";
 
 const Signin = () => {
   return (
     <div>
       <Header />
-      <Wrapper>Sign in</Wrapper>
+      <Wrapper>
+
+        <LoginButton />
+        <LogoutButton/>
+      </Wrapper>
     </div>
   );
 };

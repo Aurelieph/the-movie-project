@@ -52,22 +52,13 @@ export default Thumbnails
 
 const Wrapper = styled.div`
   position: relative;
-  /* background-color:beige; */
   border-radius: 20px;
   width: 90vw;
   margin: auto;
   max-height: var(--thmubnails-banner-size);
-  /* z-index:3; */
   display: flex;
   justify-content: center;
   align-items: center;
-`;
-const FirstImage = styled.img`
-  position: relative;
-  width: 100%;
-  z-index: -1;
-  top: 0px;
-  display: block;
 `;
 const BackwardButton = styled.button`
 position:sticky;
