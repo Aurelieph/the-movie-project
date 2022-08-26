@@ -40,7 +40,6 @@ const Profile = () => {
           <input type="submit" hidden />
 
           </form>
-
         </ProfileBody>
       </Wrapper>
       

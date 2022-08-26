@@ -1,13 +1,9 @@
 const express = require("express");
 const morgan = require("morgan");
-const { getMovieGenreList } = require("./handlers");
+const {signUp} = require("./handlers");
 // user-546872
 require("dotenv").config();
-const { MONGO_URI } = process.env;
-const options = {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-};
+
 // const { auth } = require("express-openid-connect");
 // require("dotenv").config();
 // const { SECRET_AUTH } = process.env;
@@ -24,17 +20,11 @@ const options = {
 express()
   .use(morgan("tiny"))
   .use(express.json())
-  // // auth router attaches /login, /logout, and /callback routes to the baseURL
-  // .use(auth(config))
   .get("/fetch", function (req, res) {
     res.status(200).json({ message: "Hello World" });
   })
-  // .get("/genre-movie-list", getMovieGenreList)
+  .post("/signup",signUp)
 
-  // // req.isAuthenticated is provided from the auth router
-  // .get("/", (req, res) => {
-  //   res.send(req.oidc.isAuthenticated() ? "Logged in" : "Logged out");
-  // })
   .get("*", (req, res) => {
     res.status(404).json({
       status: 404,

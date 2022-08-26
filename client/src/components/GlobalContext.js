@@ -5,6 +5,7 @@ export const GlobalContext = createContext(null);
 export const GlobalProvider = ({ children }) => {
   const [movieGenreList, setMovieGenreList] = useState([]);
   const [movieTvList, setTvGenreList] = useState([]);
+  const [currentUser,setCurrentUser] =useState(null)
   useEffect(() => {
     fetch(
       "https://api.themoviedb.org/3/genre/tv/list?api_key=2f1690ffc497ca72ea549460bdb184cf"
@@ -28,5 +29,5 @@ export const GlobalProvider = ({ children }) => {
         console.log(err);
       });
   }, []);
-  return <GlobalContext.Provider value={{}}>{children}</GlobalContext.Provider>;
+  return <GlobalContext.Provider value={{currentUser,setCurrentUser}}>{children}</GlobalContext.Provider>;
 };
