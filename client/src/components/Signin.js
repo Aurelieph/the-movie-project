@@ -1,14 +1,12 @@
 import styled from "styled-components";
 import Header from "./Header";
-import LoginButton from "./LoginButton";
-import LogoutButton from "./LogoutButton";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const Signin = () => {
   return (
     <div>
       <Header />
       <Wrapper>
-
         <LoginButton />
         <LogoutButton/>
       </Wrapper>
@@ -24,3 +22,20 @@ const Wrapper = styled.div`
   display: block;
   background-color: blue;
 `;
+
+const LoginButton = () => {
+  const { loginWithRedirect } = useAuth0();
+
+  return <button onClick={() => loginWithRedirect()}>Log In</button>;
+};
+
+const LogoutButton = () => {
+  const { logout } = useAuth0();
+
+  return (
+    <button onClick={() => logout({ returnTo: window.location.origin })}>
+      Log Out
+    </button>
+  );
+};
+

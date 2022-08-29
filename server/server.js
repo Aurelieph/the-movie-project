@@ -1,6 +1,6 @@
 const express = require("express");
 const morgan = require("morgan");
-const {signUp} = require("./handlers");
+const {signUp, getUser} = require("./handlers");
 // user-546872
 require("dotenv").config();
 
@@ -23,6 +23,7 @@ express()
   .get("/fetch", function (req, res) {
     res.status(200).json({ message: "Hello World" });
   })
+  .get("/user/:token",getUser)
   .post("/signup",signUp)
 
   .get("*", (req, res) => {

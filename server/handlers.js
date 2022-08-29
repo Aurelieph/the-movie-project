@@ -37,21 +37,46 @@ const signUp = async (req, res) => {
   try {
     await client.connect();
     const db = client.db("what2watch");
-    const isUser = await db.collection("users").findOne({ id: data.id });
+    const isUser = await db.collection("users").findOne({ token: data.token });
     if (!isUser) {
       const newUser = await db.collection("users").insertOne(data);
       return res
         .status(200)
         .json({ status: 200, message: "user added", data: newUser });
     } else {
-      const updateUser = await db.collection("users").updateOne({ id: data.id },{$set:data});
+      const updateUser = await db.collection("users").updateOne({ token: data.token },{$set:data});
+      const updatedUser = await db.collection("users").findOne({ token: data.token });
       return res
       .status(200)
-      .json({ status: 200, message: "user updated", data: updateUser });
+      .json({ status: 200, message: "user updated", data: updatedUser });
+    }
+  } catch (error) {
+    return res.status(500).json({ status: 500, message: "Something went wrong" });
+  }
+};
+const getUser = async (req, res) => {
+  const token = req.params.token;
+  console.log("token",typeof token, token)
+  try {
+    await client.connect();
+    const db = client.db("what2watch");
+    const isUser = await db.collection("users").findOne({ token: token });
+    console.log("isUser",isUser)
+    if (isUser) {
+      // const newUser = await db.collection("users").insertOne(data);
+      return res
+        .status(200)
+        .json({ status: 200, message: "user found", data: isUser });
+    } else {
+      // const updateUser = await db.collection("users").updateOne({ id: data.id },{$set:data});
+      // const updatedUser = await db.collection("users").findOne({ id: data.id });
+      return res
+      .status(200)
+      .json({ status: 200, message: "the user was not found", data: token });
     }
   } catch (error) {
     return res.status(500).json({ status: 500, message: "Something went wrong" });
   }
 };
 
-module.exports ={signUp}
+module.exports ={signUp,getUser}

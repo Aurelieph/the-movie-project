@@ -9,6 +9,16 @@ const Header = () => {
         <h1>WHAT2WATCH</h1>
       </Title>
       <Menu>
+            <LinkSpace>
+              <StyledNavlink
+                to="/signin"
+                // style={({ isActive }) =>
+                //   isActive ? activeStyle : undefined
+                // }
+              >
+                SIGN IN
+              </StyledNavlink>
+            </LinkSpace>
         <LinkSpace>
           <StyledNavlink
             to="/profile/1"
@@ -26,22 +36,12 @@ const Header = () => {
         </LinkSpace>
         <LinkSpace>
           <StyledNavlink
-            to="/signin"
-            // style={({ isActive }) =>
-            //   isActive ? activeStyle : undefined
-            // }
-          >
-            SIGN IN
-          </StyledNavlink>
-        </LinkSpace>
-        <LinkSpace>
-          <StyledNavlink
             to="/account"
             // style={({ isActive }) =>
             //   isActive ? activeStyle : undefined
             // }
           >
-            My Account
+            ACCOUNT
           </StyledNavlink>
         </LinkSpace>
       </Menu>
