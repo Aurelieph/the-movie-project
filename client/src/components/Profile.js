@@ -8,33 +8,48 @@ import { useEffect } from "react";
 import { useContext } from "react";
 import { GlobalContext } from "./GlobalContext";
 import { useParams } from "react-router-dom";
+import Search from "./Search";
 
 const Profile = () => {
-  const [watching, setWatching] = useState("Bridemaids");
+  // const [watching, setWatching] = useState("Bridemaids");
+  const [searchResults, setSearchResults] = useState(null)
   const { user, isAuthenticated, isLoading } = useAuth0();
-  const { currentUser,setCurrentUser } = useContext(GlobalContext);
-  const [userInfo,setUserInfo] =useState(null)
+  const { currentUser, setCurrentUser } = useContext(GlobalContext);
+  const [userInfo, setUserInfo] = useState(null);
   const params = useParams();
+  const [text, setText] = useState("");
 
-  useEffect(()=>{
-      fetch(`/user-id/${params.id}`)
+  useEffect(() => {
+    fetch(`/user-id/${params.id}`)
       .then((res) => res.json())
       .then((json) => {
-        if(json.status===200){
-          setUserInfo(json.data)
-          console.log(json.message)
+        if (json.status === 200) {
+          setUserInfo(json.data);
+          // console.log(json.message);
+        } else {
+          console.log(json.message);
         }
-        else{console.log(json.message)}
       })
       .catch((err) => {
         console.log(err);
       });
+  }, []);
 
-  },[])
+  useEffect(() => {
+    fetch(
+      `https://api.themoviedb.org/3/search/multi?api_key=2f1690ffc497ca72ea549460bdb184cf&query=${encodeURI(text)}`
+    )
+      .then((res) => res.json())
+      .then((json) => {
+        // const maxValue = Math.min(json.results.length, 50);
+        setSearchResults(json.results)
+        console.log(json.results)
+      });
+  }, [text]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setWatching(e.target.movie.value);
+    // setWatching(e.target.movie.value);
   };
 
   if (isLoading) {
@@ -51,7 +66,7 @@ const Profile = () => {
         <ProfileInfo>
           <ProfilePicture />
           <Pseudo>{userInfo?.nickName} </Pseudo>is watching{" "}
-          <MovieName> {watching} </MovieName>
+          <MovieName> {userInfo?.watching} </MovieName>
           <ProviderName>on Netflix</ProviderName>
         </ProfileInfo>
         <ProfileBody className="profile-body">
@@ -59,6 +74,14 @@ const Profile = () => {
             <SearchField type="text" name="movie" />
             <input type="submit" hidden />
           </form>
+          <Search
+          text={text} setText={setText}
+            suggestions={searchResults}
+            // categories={data.categories}
+            handleSelect={(suggestion) => {
+              window.alert(`Selected: ${suggestion}`);
+            }}
+          />
         </ProfileBody>
       </Wrapper>
     </div>

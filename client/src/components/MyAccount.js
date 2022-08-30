@@ -14,13 +14,14 @@ const MyAccount = () => {
 
   const handleSignUp = async (e) => {
     e.preventDefault();
-    const { firstName, lastName, nickName, email } = e.target.elements;
+    const { firstName, lastName, nickName, email ,watching} = e.target.elements;
     const data = {
       firstName: firstName?.value,
       lastName: lastName?.value,
       email: email?.value,
       nickName: nickName?.value,
       token: user.sub,
+      watching:watching?.value
     };
     await fetch("/signup/", {
       method: "POST",
@@ -81,6 +82,13 @@ const MyAccount = () => {
               name="email"
               key={currentUser?.email? currentUser.email : user?.email}
               defaultValue={currentUser?.email? currentUser.email : user?.email}
+            />
+            <Label htmlFor="watching"> What are you currently watching?</Label>
+            <Input
+              id="watching"
+              name="watching"
+              key={currentUser?.watching}
+              defaultValue={currentUser?.watching}
             />
             <button type="submit">Validate/Update</button>
           </Form>
