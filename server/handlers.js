@@ -1,6 +1,6 @@
 const tmdbKey = "2f1690ffc497ca72ea549460bdb184cf"
 
-const { MongoClient } = require("mongodb");
+const { MongoClient, ObjectId } = require("mongodb");
 require("dotenv").config();
 
 const { MONGO_URI } = process.env;
@@ -40,9 +40,10 @@ const signUp = async (req, res) => {
     const isUser = await db.collection("users").findOne({ token: data.token });
     if (!isUser) {
       const newUser = await db.collection("users").insertOne(data);
+      const addedUser = await db.collection("users").findOne({ token: data.token });
       return res
-        .status(200)
-        .json({ status: 200, message: "user added", data: newUser });
+        .status(201)
+        .json({ status: 201, message: "user added", data: addedUser });
     } else {
       const updateUser = await db.collection("users").updateOne({ token: data.token },{$set:data});
       const updatedUser = await db.collection("users").findOne({ token: data.token });
@@ -56,27 +57,41 @@ const signUp = async (req, res) => {
 };
 const getUser = async (req, res) => {
   const token = req.params.token;
-  console.log("token",typeof token, token)
   try {
     await client.connect();
     const db = client.db("what2watch");
     const isUser = await db.collection("users").findOne({ token: token });
-    console.log("isUser",isUser)
     if (isUser) {
-      // const newUser = await db.collection("users").insertOne(data);
       return res
         .status(200)
         .json({ status: 200, message: "user found", data: isUser });
     } else {
-      // const updateUser = await db.collection("users").updateOne({ id: data.id },{$set:data});
-      // const updatedUser = await db.collection("users").findOne({ id: data.id });
       return res
-      .status(200)
-      .json({ status: 200, message: "the user was not found", data: token });
+      .status(404)
+      .json({ status: 404, message: "the user was not found", data: token });
+    }
+  } catch (error) {
+    return res.status(500).json({ status: 500, message: "Something went wrong" });
+  }
+};
+const getUserByID = async (req, res) => {
+  const id = req.params.id;
+  try {
+    await client.connect();
+    const db = client.db("what2watch");
+    const isUser = await db.collection("users").findOne({ _id: ObjectId(id) });
+    if (isUser) {
+      return res
+        .status(200)
+        .json({ status: 200, message: "user found", data: isUser });
+    } else {
+      return res
+      .status(404)
+      .json({ status: 404, message: "the user was not found", data: id });
     }
   } catch (error) {
     return res.status(500).json({ status: 500, message: "Something went wrong" });
   }
 };
 
-module.exports ={signUp,getUser}
+module.exports ={signUp,getUser,getUserByID}

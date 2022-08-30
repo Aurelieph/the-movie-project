@@ -4,18 +4,33 @@ import Header from "./Header";
 import bridesmaid from "./images/bridemaids.jpg";
 import bridesmaid2 from "./images/bridemaids2.jpg";
 import { useAuth0 } from "@auth0/auth0-react";
-import CreationProfile from "./CreationProfile";
 import { useEffect } from "react";
 import { useContext } from "react";
 import { GlobalContext } from "./GlobalContext";
+import { useParams } from "react-router-dom";
 
 const Profile = () => {
   const [watching, setWatching] = useState("Bridemaids");
   const { user, isAuthenticated, isLoading } = useAuth0();
   const { currentUser,setCurrentUser } = useContext(GlobalContext);
-  useEffect(() => {
-    
-  }, []);
+  const [userInfo,setUserInfo] =useState(null)
+  const params = useParams();
+
+  useEffect(()=>{
+      fetch(`/user-id/${params.id}`)
+      .then((res) => res.json())
+      .then((json) => {
+        if(json.status===200){
+          setUserInfo(json.data)
+          console.log(json.message)
+        }
+        else{console.log(json.message)}
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+  },[])
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -35,7 +50,7 @@ const Profile = () => {
       <Wrapper>
         <ProfileInfo>
           <ProfilePicture />
-          <Pseudo>{currentUser?.nickName} </Pseudo>is watching{" "}
+          <Pseudo>{userInfo?.nickName} </Pseudo>is watching{" "}
           <MovieName> {watching} </MovieName>
           <ProviderName>on Netflix</ProviderName>
         </ProfileInfo>

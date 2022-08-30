@@ -1,7 +1,12 @@
+import { useAuth0 } from "@auth0/auth0-react";
+import { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
+import { GlobalContext } from "./GlobalContext";
 
 const Header = () => {
+  const { user, isAuthenticated, isLoading } = useAuth0();
+  const { currentUser,setCurrentUser } = useContext(GlobalContext);
   return (
     // <Wrapper className="WrapperHeader">
     <HeaderBlock className="HeaderBlock">
@@ -9,41 +14,35 @@ const Header = () => {
         <h1>WHAT2WATCH</h1>
       </Title>
       <Menu>
+        {isAuthenticated ? (
+          <>
             <LinkSpace>
               <StyledNavlink
-                to="/signin"
-                // style={({ isActive }) =>
-                //   isActive ? activeStyle : undefined
-                // }
+                to={`/profile/${currentUser?._id}`}
+                style={({ isActive }) =>
+                  isActive
+                    ? {
+                        backgroundColor: "beige",
+                        color: "red",
+                      }
+                    : { backgroundColor: "blue" }
+                }
               >
-                SIGN IN
+                PROFILE
               </StyledNavlink>
             </LinkSpace>
-        <LinkSpace>
-          <StyledNavlink
-            to="/profile/1"
-            style={({ isActive }) =>
-              isActive
-                ? {
-                    backgroundColor: "beige",
-                    color: "red",
-                  }
-                : undefined
-            }
-          >
-            PROFILE
-          </StyledNavlink>
-        </LinkSpace>
-        <LinkSpace>
-          <StyledNavlink
-            to="/account"
-            // style={({ isActive }) =>
-            //   isActive ? activeStyle : undefined
-            // }
-          >
-            ACCOUNT
-          </StyledNavlink>
-        </LinkSpace>
+            <LinkSpace>
+              <StyledNavlink to="/account">ACCOUNT</StyledNavlink>
+            </LinkSpace>
+            <LinkSpace>
+              <StyledNavlink to="/signout">SIGN OUT</StyledNavlink>
+            </LinkSpace>
+          </>
+        ) : (
+          <LinkSpace>
+            <StyledNavlink to="/signin">SIGN IN</StyledNavlink>
+          </LinkSpace>
+        )}
       </Menu>
     </HeaderBlock>
     // </Wrapper>
@@ -121,7 +120,6 @@ const StyledNavlink = styled(NavLink)`
   width: 200px;
   color: inherit;
   text-decoration: none;
-
   &:hover {
     font-size: 24px;
   }

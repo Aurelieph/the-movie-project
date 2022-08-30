@@ -41,10 +41,14 @@ export const GlobalProvider = ({ children }) => {
     if(user){
       console.log("user.sub",user.sub)
       fetch(`/user/${user.sub}`)
-      // fetch(`/user/${encodeURI(user.sub)}`)
       .then((res) => res.json())
       .then((json) => {
-        setCurrentUser(json.data);
+        console.log("json.data",json.data)
+        if(json.status===200){
+          setCurrentUser(json.data);
+          console.log(json.message)
+        }
+        else{console.log(json.message)}
       })
       .catch((err) => {
         console.log(err);
