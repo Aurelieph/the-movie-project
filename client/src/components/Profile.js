@@ -12,7 +12,7 @@ import Search from "./Search";
 
 const Profile = () => {
   // const [watching, setWatching] = useState("Bridemaids");
-  const [searchResults, setSearchResults] = useState(null)
+  const [searchResults, setSearchResults] = useState([])
   const { user, isAuthenticated, isLoading } = useAuth0();
   const { currentUser, setCurrentUser } = useContext(GlobalContext);
   const [userInfo, setUserInfo] = useState(null);
@@ -36,15 +36,20 @@ const Profile = () => {
   }, []);
 
   useEffect(() => {
-    fetch(
-      `https://api.themoviedb.org/3/search/multi?api_key=2f1690ffc497ca72ea549460bdb184cf&query=${encodeURI(text)}`
-    )
-      .then((res) => res.json())
-      .then((json) => {
-        // const maxValue = Math.min(json.results.length, 50);
-        setSearchResults(json.results)
-        console.log(json.results)
-      });
+    if(text.length>2){
+
+      fetch(
+        `https://api.themoviedb.org/3/search/multi?api_key=2f1690ffc497ca72ea549460bdb184cf&query=${encodeURI(text)}`
+        )
+        .then((res) => res.json())
+        .then((json) => {
+          // const maxValue = Math.min(json.results.length, 50);
+          setSearchResults(json.results.filter((result)=>{
+           return result.media_type==="movie"||result.media_type==="tv"
+          }))
+          console.log("json.results",json.results)
+        });
+      }
   }, [text]);
 
   const handleSubmit = (e) => {

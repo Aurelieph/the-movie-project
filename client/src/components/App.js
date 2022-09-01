@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useContext } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import Friends from "./Friends";
 import { GlobalContext } from "./GlobalContext";
 import Homepage from "./Homepage";
 import MyAccount from "./MyAccount";
@@ -21,6 +22,7 @@ function App() {
         <Route path="/signin" element={<Signin />} />
         <Route path="/signout" element={<Signout />} />
         <Route path="/account" element={<MyAccount />} />
+        <Route path="/friends" element={<Friends />} />
         <Route path="/profile/:id"
         element={<Profile />} />
       </Routes>

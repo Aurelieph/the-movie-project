@@ -1,6 +1,6 @@
 const express = require("express");
 const morgan = require("morgan");
-const {signUp, getUser,getUserByID} = require("./handlers");
+const {signUp, getUser,getUserByID,sendFriendRequest} = require("./handlers");
 // user-546872
 require("dotenv").config();
 
@@ -26,6 +26,8 @@ express()
   .get("/user/:token",getUser)
   .get("/user-id/:id",getUserByID)
   .post("/signup",signUp)
+  .patch("/send-request",sendFriendRequest)
+
 
   .get("*", (req, res) => {
     res.status(404).json({

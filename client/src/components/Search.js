@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
+import Suggestion from "./Suggestion";
 
-const Search = ({ suggestions, handleSelect, text ,setText}) => {
+const Search = ({ suggestions, handleSelect, text, setText }) => {
   // const Search = ({ suggestions, handleSelect ,categories}) =>{
 
-
-  const [filteredSuggestions, setFilteredSuggestions] = useState([]);
+  // const [filteredSuggestions, setFilteredSuggestions] = useState([]);
   const [selectedSuggestionIndex, setSelectedSuggestionIndex] = useState(0);
 
   return (
@@ -13,22 +13,21 @@ const Search = ({ suggestions, handleSelect, text ,setText}) => {
       <StyledInput
         type="text"
         id="input"
+        autoComplete="off"
         onChange={(e) => {
           setText(e.target.value);
-          if (text.length >= 2){
-
-            setFilteredSuggestions(
-              suggestions.filter((item) =>
-              item.title?.toLowerCase().includes(text.toLowerCase())
-              )
-              );
-            }
-          else setFilteredSuggestions([]);
+          // if (text.length >= 2) {
+          //   setFilteredSuggestions(
+          //     suggestions.filter((item) =>
+          //       item.title?.toLowerCase().includes(text.toLowerCase())
+          //     )
+          //   );
+          // } else setFilteredSuggestions([]);
         }}
         onKeyDown={(ev) => {
           switch (ev.key) {
             case "Enter": {
-              handleSelect(filteredSuggestions[selectedSuggestionIndex]?.title);
+              handleSelect(suggestions[selectedSuggestionIndex]?.title);
               return;
             }
             case "ArrowUp": {
@@ -37,9 +36,9 @@ const Search = ({ suggestions, handleSelect, text ,setText}) => {
               return;
             }
             case "ArrowDown": {
-              if (filteredSuggestions.length > selectedSuggestionIndex + 1)
+              if (suggestions.length > selectedSuggestionIndex + 1)
                 setSelectedSuggestionIndex(selectedSuggestionIndex + 1);
-              else setSelectedSuggestionIndex(filteredSuggestions.length - 1);
+              else setSelectedSuggestionIndex(suggestions.length - 1);
               return;
             }
           }
@@ -49,44 +48,30 @@ const Search = ({ suggestions, handleSelect, text ,setText}) => {
       <StyledButton
         onClick={() => {
           setText("");
-          setFilteredSuggestions([]);
+          // setFilteredSuggestions([]);
         }}
       >
         Clear
       </StyledButton>
-      {filteredSuggestions.length !== 0 && (
+      
+      {(suggestions.length !== 0 && text.length>2)&& (
+        // {filteredSuggestions.length !== 0 && (
         <StyledUl>
-          {filteredSuggestions.map((suggestion, index) => {
+          {suggestions.map((suggestion, index) => {
+            // {filteredSuggestions.map((suggestion, index) => {
             const isSelected = selectedSuggestionIndex === index ? true : false;
             return (
               <Suggestion
-                onMouseEnter={() => {
-                  setSelectedSuggestionIndex(index);
-                }}
-                key={`suggestion-${index}`}
-                onClick={() => handleSelect(suggestion.title)}
-                style={{
-                  background: isSelected
-                    ? "hsla(50deg, 100%, 80%, 0.25)"
-                    : "transparent",
-                }}
-              >
-                <span>({suggestion.media_type}) </span>
-                <span>
-                  {suggestion.title.substr(
-                    0,
-                    suggestion.title.toLowerCase().indexOf(text) + text.length
-                  )}
-
-                  <Prediction>
-                    {suggestion.title.substr(
-                      suggestion.title.toLowerCase().indexOf(text) + text.length
-                    )}
-                  </Prediction>
-                  <Italic>in</Italic>
-                  {/* <Category>{categories[suggestion.categoryId].name}</Category> */}
-                </span>
-              </Suggestion>
+                suggestion={suggestion}
+                selectedSuggestionIndex={selectedSuggestionIndex}
+                setSelectedSuggestionIndex={setSelectedSuggestionIndex}
+                handleSelect={handleSelect}
+                index={index}
+                text={text}
+                isSelected={isSelected}
+                title={suggestion.title?suggestion.title:suggestion.name}
+                date={suggestion.release_date?suggestion.release_date:suggestion.first_air_date}
+              />
             );
           })}
         </StyledUl>
@@ -113,28 +98,9 @@ const StyledInput = styled.input`
   border: solid 1px lightgray;
   padding-left: 10px;
 `;
-const Suggestion = styled.li`
-  padding: 15px;
-  &:hover {
-    background-color: rgb(255, 250, 228);
-  }
-`;
+
 const StyledUl = styled.ul`
   box-shadow: 0 4px 10px 1px lightgray;
   padding: 10px;
   width: 380px;
-`;
-const Prediction = styled.span`
-  font-weight: bold;
-`;
-const Italic = styled.span`
-  font-style: italic;
-  font-size: 14px;
-  margin-right: 5px;
-  margin-left: 5px;
-`;
-const Category = styled.span`
-  font-style: italic;
-  font-size: 14px;
-  color: purple;
 `;

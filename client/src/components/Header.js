@@ -5,63 +5,44 @@ import styled from "styled-components";
 import { GlobalContext } from "./GlobalContext";
 
 const Header = () => {
-  const { user, isAuthenticated, isLoading } = useAuth0();
-  const { currentUser,setCurrentUser } = useContext(GlobalContext);
+  const { isAuthenticated, isLoading } = useAuth0();
+  const { currentUser } = useContext(GlobalContext);
   return (
-    // <Wrapper className="WrapperHeader">
     <HeaderBlock className="HeaderBlock">
       <Title to="/">
         <h1>WHAT2WATCH</h1>
       </Title>
-      <Menu>
-        {isAuthenticated ? (
-          <>
+      {!isLoading && (
+        <Menu>
+          {isAuthenticated ? (
+            <>
+              <LinkSpace>
+                <StyledNavlink to={`/profile/${currentUser?._id}`}>
+                  PROFILE
+                </StyledNavlink>
+              </LinkSpace>
+              <LinkSpace>
+                <StyledNavlink to="/account">ACCOUNT</StyledNavlink>
+              </LinkSpace>
+              <LinkSpace>
+                <StyledNavlink to="/friends">FRIENDS</StyledNavlink>
+              </LinkSpace>
+              <LinkSpace>
+                <StyledNavlink to="/signout">SIGN OUT</StyledNavlink>
+              </LinkSpace>
+            </>
+          ) : (
             <LinkSpace>
-              <StyledNavlink
-                to={`/profile/${currentUser?._id}`}
-                style={({ isActive }) =>
-                  isActive
-                    ? {
-                        backgroundColor: "beige",
-                        color: "red",
-                      }
-                    : { backgroundColor: "blue" }
-                }
-              >
-                PROFILE
-              </StyledNavlink>
+              <StyledNavlink to="/signin">SIGN IN</StyledNavlink>
             </LinkSpace>
-            <LinkSpace>
-              <StyledNavlink to="/account">ACCOUNT</StyledNavlink>
-            </LinkSpace>
-            <LinkSpace>
-              <StyledNavlink to="/signout">SIGN OUT</StyledNavlink>
-            </LinkSpace>
-          </>
-        ) : (
-          <LinkSpace>
-            <StyledNavlink to="/signin">SIGN IN</StyledNavlink>
-          </LinkSpace>
-        )}
-      </Menu>
+          )}
+        </Menu>
+      )}
     </HeaderBlock>
-    // </Wrapper>
   );
 };
 
 export default Header;
-
-// const Wrapper = styled.div`
-
-//   position: absolute;
-//   height: 90vh;
-//   top: 0;
-//   margin: 0;
-//   width: 100vw;
-//   max-width: 100%;
-//   z-index:2;
-//   /* background-color:yellow; */
-// `;
 
 const HeaderBlock = styled.div`
   @keyframes opacity-in {
@@ -108,7 +89,6 @@ const Title = styled(NavLink)`
   font-size: 30px;
 `;
 const Menu = styled.div`
-  /* margin-right: 50px; */
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -120,8 +100,12 @@ const StyledNavlink = styled(NavLink)`
   width: 200px;
   color: inherit;
   text-decoration: none;
+  padding: 5px 0;
   &:hover {
     font-size: 24px;
+  }
+  &.active {
+    border-bottom: 1px solid black;
   }
 `;
 const LinkSpace = styled.div`
