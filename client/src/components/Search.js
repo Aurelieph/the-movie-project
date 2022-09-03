@@ -14,15 +14,9 @@ const Search = ({ suggestions, handleSelect, text, setText }) => {
         type="text"
         id="input"
         autoComplete="off"
+        placeholder="Movie / TV-Show Title"
         onChange={(e) => {
           setText(e.target.value);
-          // if (text.length >= 2) {
-          //   setFilteredSuggestions(
-          //     suggestions.filter((item) =>
-          //       item.title?.toLowerCase().includes(text.toLowerCase())
-          //     )
-          //   );
-          // } else setFilteredSuggestions([]);
         }}
         onKeyDown={(ev) => {
           switch (ev.key) {
@@ -53,8 +47,8 @@ const Search = ({ suggestions, handleSelect, text, setText }) => {
       >
         Clear
       </StyledButton>
-      
-      {(suggestions.length !== 0 && text.length>2)&& (
+
+      {suggestions.length !== 0 && text.length > 2 && (
         // {filteredSuggestions.length !== 0 && (
         <StyledUl>
           {suggestions.map((suggestion, index) => {
@@ -62,6 +56,7 @@ const Search = ({ suggestions, handleSelect, text, setText }) => {
             const isSelected = selectedSuggestionIndex === index ? true : false;
             return (
               <Suggestion
+                key={`suggestion-${suggestion.id}`}
                 suggestion={suggestion}
                 selectedSuggestionIndex={selectedSuggestionIndex}
                 setSelectedSuggestionIndex={setSelectedSuggestionIndex}
@@ -69,8 +64,12 @@ const Search = ({ suggestions, handleSelect, text, setText }) => {
                 index={index}
                 text={text}
                 isSelected={isSelected}
-                title={suggestion.title?suggestion.title:suggestion.name}
-                date={suggestion.release_date?suggestion.release_date:suggestion.first_air_date}
+                title={suggestion.title ? suggestion.title : suggestion.name}
+                date={
+                  suggestion.release_date
+                    ? suggestion.release_date
+                    : suggestion.first_air_date
+                }
               />
             );
           })}
@@ -97,6 +96,7 @@ const StyledInput = styled.input`
   border-radius: 5px;
   border: solid 1px lightgray;
   padding-left: 10px;
+  z-index:1;
 `;
 
 const StyledUl = styled.ul`

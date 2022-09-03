@@ -12,21 +12,21 @@ const Suggestion = ({
   date,
 }) => {
   if (!title.toLowerCase().includes(text.toLowerCase())) {
-    return "";
+    return "" ;
   } else
     return (
       <Wrapper
         onMouseEnter={() => {
           setSelectedSuggestionIndex(index);
         }}
-        key={`suggestion-${index}`}
-        onClick={() => handleSelect(title)}
+        onClick={() => handleSelect(suggestion)}
         style={{
           background: isSelected
             ? "hsla(50deg, 100%, 80%, 0.25)"
             : "transparent",
         }}
       >
+        {/* {console.log("suggestion.id",suggestion.id)} */}
         {suggestion.poster_path && (
           <MovieImg
             src={`http://image.tmdb.org/t/p/w92/${suggestion.poster_path}`}

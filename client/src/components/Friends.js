@@ -3,7 +3,7 @@ import { GlobalContext } from "./GlobalContext";
 import Header from "./Header";
 
 const Friends = () => {
-  const { currentUser, setCurrentUser } = useContext(GlobalContext);
+  const { currentUser, setCurrentUser ,update,setUpdate} = useContext(GlobalContext);
   const [message, setMessage] = useState(null);
   const handleSendRequest = async (e) => {
     e.preventDefault();
@@ -27,12 +27,33 @@ const Friends = () => {
       .then((res) => res.json())
       .then((json) => {
         setMessage(json.message);
+        setUpdate(!update)
       })
       .catch((err) => console.log(err))
   };
   return (
     <div>
       <Header />
+      {currentUser.friendRequestReceived?.length>0 &&
+      <div>
+        Request(s) received from:
+        {currentUser.friendRequestReceived.map((request)=>{
+          return(
+            <div>{request.id}</div>
+            )
+          })}
+      </div>
+        }
+      {currentUser.friendRequestSent?.length>0 &&
+      <div>
+        Request(s) sent to:
+        {currentUser.friendRequestSent.map((request)=>{
+          return(
+            <div>{request.id}</div>
+            )
+          })}
+      </div>
+        }
 
       <form onSubmit={handleSendRequest}>
         <p>Enter your friend's ID:</p>

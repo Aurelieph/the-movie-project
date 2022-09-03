@@ -9,16 +9,18 @@ import { useContext } from "react";
 import { GlobalContext } from "./GlobalContext";
 import { useParams } from "react-router-dom";
 import Search from "./Search";
+import Popup from "./Popup";
 
 const Profile = () => {
   // const [watching, setWatching] = useState("Bridemaids");
-  const [searchResults, setSearchResults] = useState([])
+  const [searchResults, setSearchResults] = useState([]);
   const { user, isAuthenticated, isLoading } = useAuth0();
   const { currentUser, setCurrentUser } = useContext(GlobalContext);
   const [userInfo, setUserInfo] = useState(null);
   const params = useParams();
   const [text, setText] = useState("");
-
+  const [selectedPopupItem, setSelectedPopupItem] = useState(null);
+  const [showDialog, setShowDialog] = useState(false);
   useEffect(() => {
     fetch(`/user-id/${params.id}`)
       .then((res) => res.json())
@@ -36,26 +38,26 @@ const Profile = () => {
   }, []);
 
   useEffect(() => {
-    if(text.length>2){
-
+    if (text.length > 2) {
       fetch(
-        `https://api.themoviedb.org/3/search/multi?api_key=2f1690ffc497ca72ea549460bdb184cf&query=${encodeURI(text)}`
-        )
+        `https://api.themoviedb.org/3/search/multi?api_key=2f1690ffc497ca72ea549460bdb184cf&query=${encodeURI(
+          text
+        )}`
+      )
         .then((res) => res.json())
         .then((json) => {
           // const maxValue = Math.min(json.results.length, 50);
-          setSearchResults(json.results.filter((result)=>{
-           return result.media_type==="movie"||result.media_type==="tv"
-          }))
-          console.log("json.results",json.results)
+          setSearchResults(
+            json.results.filter((result) => {
+              return (
+                result.media_type === "movie" || result.media_type === "tv"
+              );
+            })
+          );
+          console.log("json.results", json.results);
         });
-      }
+    }
   }, [text]);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // setWatching(e.target.movie.value);
-  };
 
   if (isLoading) {
     return <div>Loading ...</div>;
@@ -63,7 +65,12 @@ const Profile = () => {
 
   return (
     <div>
-      <Header />
+      <Popup
+        selectedPopupItem={selectedPopupItem}
+        setSelectedPopupItem={setSelectedPopupItem}
+        showDialog={showDialog} setShowDialog={setShowDialog}
+      />
+      {!showDialog?<Header />:<PlaceHolder/>}
       <Banner>
         <BannerImg src={bridesmaid2} />
       </Banner>
@@ -75,17 +82,17 @@ const Profile = () => {
           <ProviderName>on Netflix</ProviderName>
         </ProfileInfo>
         <ProfileBody className="profile-body">
-          <form onSubmit={handleSubmit}>
-            <SearchField type="text" name="movie" />
-            <input type="submit" hidden />
-          </form>
           <Search
-          text={text} setText={setText}
+            text={text}
+            setText={setText}
             suggestions={searchResults}
             // categories={data.categories}
             handleSelect={(suggestion) => {
-              window.alert(`Selected: ${suggestion}`);
+              setShowDialog(true)
+              setSelectedPopupItem(suggestion);
             }}
+            selectedPopupItem={selectedPopupItem}
+            // setSelectedPopupItem={setSelectedPopupItem}
           />
         </ProfileBody>
       </Wrapper>
@@ -97,6 +104,9 @@ export default Profile;
 
 const Wrapper = styled.div`
   top: var(--header-height);
+`;
+const PlaceHolder = styled.div`
+  height: var(--header-height);
 `;
 
 const Banner = styled.div`
@@ -123,7 +133,7 @@ const ProfileInfo = styled.div`
   /* top: calc(var(--banner-height) -  var(--profile-image-size) / 2 ); */
   margin: calc(var(--profile-image-size) / -2) 0 0 50px;
   width: var(--profile-image-size);
-  z-index: 3;
+  /* z-index: 3; */
 `;
 const Pseudo = styled.div`
   font-size: 32px;
@@ -161,7 +171,7 @@ const ProfileBody = styled.div`
   top: var(--banner-height);
   /* margin: 0 100px; */
   left: calc(var(--profile-image-size) + 100px);
-  z-index: 3;
+  /* z-index: 3; */
 `;
 
 const SearchField = styled.input``;

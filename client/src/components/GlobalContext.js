@@ -8,31 +8,32 @@ export const GlobalProvider = ({ children }) => {
   const [movieTvList, setTvGenreList] = useState([]);
   const [currentUser,setCurrentUser] =useState(null)
   const { user, isAuthenticated, isLoading } = useAuth0();
+  const [update,setUpdate]=useState(false)
 
 
   
   useEffect(() => {
-    fetch(
-      "https://api.themoviedb.org/3/genre/tv/list?api_key=2f1690ffc497ca72ea549460bdb184cf"
-    )
-      .then((res) => res.json())
-      .then((json) => {
-        setMovieGenreList(json);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    // fetch(
+    //   "https://api.themoviedb.org/3/genre/tv/list?api_key=2f1690ffc497ca72ea549460bdb184cf"
+    // )
+    //   .then((res) => res.json())
+    //   .then((json) => {
+    //     setMovieGenreList(json);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
 
-    fetch(
-      "https://api.themoviedb.org/3/genre/movie/list?api_key=2f1690ffc497ca72ea549460bdb184cf"
-    )
-      .then((res) => res.json())
-      .then((json) => {
-        setTvGenreList(json);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    // fetch(
+    //   "https://api.themoviedb.org/3/genre/movie/list?api_key=2f1690ffc497ca72ea549460bdb184cf"
+    // )
+    //   .then((res) => res.json())
+    //   .then((json) => {
+    //     setTvGenreList(json);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
 
       
   }, []);
@@ -55,6 +56,6 @@ export const GlobalProvider = ({ children }) => {
       });
 
     }
-  },[user])
-  return <GlobalContext.Provider value={{currentUser,setCurrentUser}}>{children}</GlobalContext.Provider>;
+  },[user,update])
+  return <GlobalContext.Provider value={{currentUser,setCurrentUser,setUpdate,update}}>{children}</GlobalContext.Provider>;
 };
