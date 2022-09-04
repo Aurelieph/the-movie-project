@@ -41,17 +41,28 @@ const Popup = ({
 
   return (
     <StyledDialog isOpen={showDialog} onDismiss={close} aria-label="View item">
-      {selectedPopupItem?.media_type === "movie" ? (
-        <Wrapper>
-          <Poster
-            src={`http://image.tmdb.org/t/p/w500/${selectedPopupItem.poster_path}`}
+      <Wrapper>
+        <Poster
+          src={`http://image.tmdb.org/t/p/w500/${selectedPopupItem?.poster_path}`}
+        />
+        {selectedPopupItem?.media_type === "movie" && (
+          <MovieDetails
+            selectedPopupItem={selectedPopupItem}
+            title={selectedPopupItem.title}
+            creditInfo={creditInfo}
+            date={selectedPopupItem.release_date}
           />
-          <MovieDetails selectedPopupItem={selectedPopupItem} creditInfo={creditInfo}/>
-          <CloseButton onClick={close}>X</CloseButton>
-        </Wrapper>
-      ) : (
-        ""
-      )}
+        )}
+        {selectedPopupItem?.media_type === "tv" && (
+          <MovieDetails
+            selectedPopupItem={selectedPopupItem}
+            title={selectedPopupItem.name}
+            creditInfo={creditInfo}
+            date={selectedPopupItem.first_air_date}
+          />
+        )}
+        <CloseButton onClick={close}>X</CloseButton>
+      </Wrapper>
     </StyledDialog>
   );
 };

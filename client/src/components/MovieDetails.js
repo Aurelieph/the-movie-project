@@ -1,11 +1,12 @@
 import styled from "styled-components";
 
-const MovieDetails = ({selectedPopupItem,creditInfo})=>{
+const MovieDetails = ({selectedPopupItem,creditInfo,title,date})=>{
   return (
     <DescriptionArea>
     <Title>
-      {selectedPopupItem.title}
+      {title}
       <Media>{selectedPopupItem.media_type}</Media>
+      <Date>{date.substr(0, 4)}</Date>
     </Title>
 
     <Synopsis>
@@ -32,6 +33,10 @@ const Label = styled.div`
 `;
 const Synopsis = styled.div`
   font-size: 14px;
+`;
+const Date = styled.span`
+  font-size: 12px;
+  margin-left:10px;
 `;
 const DescriptionArea = styled.div`
   align-items: center;
