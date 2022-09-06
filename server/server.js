@@ -1,6 +1,17 @@
 const express = require("express");
 const morgan = require("morgan");
-const {signUp, getUser,getUserByID,sendFriendRequest} = require("./handlers");
+const {
+  signUp,
+  getUser,
+  getUserByID,
+  createNewWatchlist,
+  deleteWatchList,
+
+} = require("./handlers/accountHandlers");
+const {
+
+  sendFriendRequest,
+} = require("./handlers/friendsHandlers");
 // user-546872
 require("dotenv").config();
 
@@ -23,11 +34,12 @@ express()
   .get("/fetch", function (req, res) {
     res.status(200).json({ message: "Hello World" });
   })
-  .get("/user/:token",getUser)
-  .get("/user-id/:id",getUserByID)
-  .post("/signup",signUp)
-  .patch("/send-request",sendFriendRequest)
-
+  .get("/user/:token", getUser)
+  .get("/user-id/:id", getUserByID)
+  .post("/signup", signUp)
+  .patch("/send-request", sendFriendRequest)
+  .patch("/new-watchlist", createNewWatchlist)
+  .patch("/delete-watchlist", deleteWatchList)
 
   .get("*", (req, res) => {
     res.status(404).json({

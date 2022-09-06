@@ -1,6 +1,6 @@
 const tmdbKey = "2f1690ffc497ca72ea549460bdb184cf";
 
-const { MongoClient, ObjectId } = require("mongodb");
+const { MongoClient, ObjectId, ReadConcern } = require("mongodb");
 require("dotenv").config();
 
 const { MONGO_URI } = process.env;
@@ -18,18 +18,6 @@ const client = new MongoClient(MONGO_URI, options);
 //   --header 'Content-Type: application/json;charset=utf-8'
 // https://api.themoviedb.org/3/movie/550?api_key=2f1690ffc497ca72ea549460bdb184cf
 
-// const getMovieGenreList = async (req, res)=>{
-//   // try {
-//   //   const response = await fetch("https//https://api.themoviedb.org/3/genre/tv/list?api_key=2f1690ffc497ca72ea549460bdb184cf")
-//   //   return res.status(201).json({
-//   //     status: 200,
-
-//   //   });
-//   // } catch (err) {
-//   //   console.log(err);
-//   //   res.status(500).json({ status: 500, message: "something went wrong" });
-//   // }
-// }
 
 const signUp = async (req, res) => {
   const data = req.body;
@@ -57,9 +45,7 @@ const signUp = async (req, res) => {
         .json({ status: 200, message: "user updated", data: updatedUser });
     }
   } catch (error) {
-    return res
-      .status(500)
-      .json({ status: 500, message: "Something went wrong" });
+    return res.status(500).json({ status: 500, message: error });
   }
 };
 const getUser = async (req, res) => {
@@ -105,75 +91,67 @@ const getUserByID = async (req, res) => {
   }
 };
 
-const sendFriendRequest = async (req, res) => {
+
+
+const createNewWatchlist = async (req, res) => {
   const data = req.body;
-  // console.log("data.myId", data.myId);
-  const today = new Date();
   try {
     await client.connect();
     const db = client.db("what2watch");
+    const check = await db.collection("users").findOne({
+      _id: ObjectId(data.myId),
+      watchlists: { $elemMatch: { name: data.name } },
+    });
 
-    const friend = await db
-      .collection("users")
-      .findOne({ _id: ObjectId(data.friend_id) });
-    const currentUser = await db
-      .collection("users")
-      .findOne({ _id: ObjectId(data.myId) });
-// console.log(currentUser)
-    if (friend && currentUser) {
-        requestAlreadyReceived = await friend.friendRequestReceived?.some((el) => {
-          console.log("test")
-          if (el.id === data.myId) {
-            return true;
-          }
-          return false;
-        });
-
-      console.log("requestAlreadyReceived",requestAlreadyReceived)
-      if (!requestAlreadyReceived) {
-        const updateFriend = await db.collection("users").updateOne(
-          { _id: ObjectId(data.friend_id) },
-          {
-            $addToSet: {
-              friendRequestReceived: { id: data.myId, date: today },
-            },
-          }
-          );
-          console.log("updateFriend",updateFriend)
-        const updateCurrentUser = await db.collection("users").updateOne(
-          { _id: ObjectId(data.myId) },
-          {
-            $addToSet: {
-              friendRequestSent: { id: data.friend_id, date: today },
-            },
-          }
-        );
-        return res.status(200).json({ status: 200, message: "request sent" });
-      } else {
-        return res
-          .status(200)
-          .json({ status: 202, message: "request already sent" });
-      }
-    } else {
+    if (check) {
       return res
-        .status(404)
-        .json({
-          status: 404,
-          message: "the user was not found",
-          body: currentUser,
-        });
+        .status(202)
+        .json({ status: 202, message: "watchlist name already exists" });
+    } else {
+      await db.collection("users").updateOne(
+        { _id: ObjectId(data.myId) },
+        {
+          $push: {
+            watchlists: { name: data.name, list: [] },
+          },
+        }
+      );
+      return res.status(200).json({
+        status: 200,
+        message: `watchlist '${data.name}' has been successfully created`,
+      });
     }
   } catch (error) {
-    console.log(error)
+    console.log(error);
     res.status(500).json({ status: 500, message: "Something went wrong" });
   }
 };
-const handleFriendRequest = async (req, res) => {};
+
+const deleteWatchList = async (req, res) => {
+  const data = req.body;
+  try {
+    await client.connect();
+    const db = await client.db("what2watch");
+    const statusDeleteWatchList = await db
+      .collection("users")
+      .updateOne(
+        { _id: ObjectId(data.myId) },
+        { $pull: { watchlists: { name: data.name } } },
+      );
+    return res.status(200).json({
+      status: 200,
+      message: "Successfully deleted",
+    });
+  } catch (error) {
+    // console.log(error);
+    res.status(500).json({ status: 500, message: "Something went wrong" });
+  }
+};
 
 module.exports = {
   signUp,
   getUser,
   getUserByID,
-  sendFriendRequest,
-  handleFriendRequest,
+  createNewWatchlist,
+  deleteWatchList,
 };

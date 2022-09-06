@@ -27,11 +27,11 @@ const Suggestion = ({
         }}
       >
         {/* {console.log("suggestion.id",suggestion.id)} */}
-        {suggestion.poster_path && (
+        {suggestion.poster_path ? (
           <MovieImg
             src={`http://image.tmdb.org/t/p/w92/${suggestion.poster_path}`}
           />
-        )}
+        ):<ImgPlaceholder/>}
         {/* <span>{suggestion.id}</span> */}
         <span>
           {/* /0:{title.toLowerCase().indexOf(text.toLowerCase())}/ */}
@@ -85,6 +85,12 @@ const MovieImg = styled.img`
     /* position:absolute; */
     margin-left:-15px;
   }
+`;
+const ImgPlaceholder = styled.div`
+  height: 60px;
+  margin-right: 5px;
+  width:45px;
+  border: 1px solid gray;
 `;
 const Date = styled.span`
   font-size: 14px;

@@ -32,22 +32,23 @@ const Friends = () => {
       .catch((err) => console.log(err))
   };
   return (
+    
     <div>
       <Header />
-      {currentUser.friendRequestReceived?.length>0 &&
+      {currentUser?.friendRequestReceived?.length>0 &&
       <div>
         Request(s) received from:
-        {currentUser.friendRequestReceived.map((request)=>{
+        {currentUser?.friendRequestReceived?.map((request)=>{
           return(
             <div>{request.id}</div>
             )
           })}
       </div>
         }
-      {currentUser.friendRequestSent?.length>0 &&
+      {currentUser?.friendRequestSent?.length>0 &&
       <div>
         Request(s) sent to:
-        {currentUser.friendRequestSent.map((request)=>{
+        {currentUser?.friendRequestSent?.map((request)=>{
           return(
             <div>{request.id}</div>
             )

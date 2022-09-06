@@ -2,7 +2,14 @@ import styled from "styled-components";
 import { NUMBER_THUMBNAILS } from "../Constants";
 import Thumbnail from "./Thumbnail";
 
-const Thumbnails = ({thumbnailsArray,setThumbnailsArray,moviesArray})=>{
+const Thumbnails = ({
+  thumbnailsArray,
+  setThumbnailsArray,
+  moviesArray,
+  selectedPopupItem,
+  setSelectedPopupItem,
+  setShowDialog,
+}) => {
   const handleForward = () => {
     const firstElementId = thumbnailsArray[0].id;
     const lastElementPosition = moviesArray
@@ -34,21 +41,27 @@ const Thumbnails = ({thumbnailsArray,setThumbnailsArray,moviesArray})=>{
     }
   };
 
-  return(      <Wrapper>
-    <BackwardButton onClick={handleBackward}>{"<"}</BackwardButton>
-    {thumbnailsArray.map((thumbnail) => {
-      return (
-        <div key={`key-${thumbnail.id}`}>
-          <Thumbnail movie={thumbnail} />
-        </div>
-      );
-    })}
-    <ForwardButton onClick={handleForward}>{">"}</ForwardButton>
-  </Wrapper>)
-}
+  return (
+    <Wrapper>
+      <BackwardButton onClick={handleBackward}>{"<"}</BackwardButton>
+      {thumbnailsArray.map((thumbnail) => {
+        return (
+          <div key={`key-${thumbnail.id}`}>
+            <Thumbnail
+              movie={thumbnail}
+              selectedPopupItem={selectedPopupItem}
+              setSelectedPopupItem={setSelectedPopupItem}
+              setShowDialog={setShowDialog}
+            />
+          </div>
+        );
+      })}
+      <ForwardButton onClick={handleForward}>{">"}</ForwardButton>
+    </Wrapper>
+  );
+};
 
-export default Thumbnails
-
+export default Thumbnails;
 
 const Wrapper = styled.div`
   position: relative;
@@ -61,12 +74,10 @@ const Wrapper = styled.div`
   align-items: center;
 `;
 const BackwardButton = styled.button`
-position:sticky;
-left:0;
-
+  position: sticky;
+  left: 0;
 `;
 const ForwardButton = styled.button`
-position:sticky;
-right:0;
-
+  position: sticky;
+  right: 0;
 `;

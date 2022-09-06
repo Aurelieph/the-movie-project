@@ -10,6 +10,8 @@ import { GlobalContext } from "./GlobalContext";
 import { useParams } from "react-router-dom";
 import Search from "./Search";
 import Popup from "./Popup";
+import Whishlists from "./Wishlists";
+import { PlaceHolder } from "./Homepage";
 
 const Profile = () => {
   // const [watching, setWatching] = useState("Bridemaids");
@@ -94,6 +96,7 @@ const Profile = () => {
             selectedPopupItem={selectedPopupItem}
             // setSelectedPopupItem={setSelectedPopupItem}
           />
+          <Whishlists/>
         </ProfileBody>
       </Wrapper>
     </div>
@@ -105,9 +108,9 @@ export default Profile;
 const Wrapper = styled.div`
   top: var(--header-height);
 `;
-const PlaceHolder = styled.div`
-  height: var(--header-height);
-`;
+// const PlaceHolder = styled.div`
+//   height: var(--header-height);
+// `;
 
 const Banner = styled.div`
   width: 100%;

@@ -4,12 +4,15 @@ import Header from "./Header";
 import { useEffect, useState } from "react";
 import { NUMBER_THUMBNAILS } from "../Constants";
 import Thumbnails from "./Thumbnails";
+import Popup from "./Popup";
 
 const Homepage = () => {
   const [thumbnailsTop20Movie, setThumbnailsTop20Movie] = useState([]);
   const [top20MovieWeek, setTop20MovieWeek] = useState([]);
   const [thumbnailsTop20Tv, setThumbnailsTop20Tv] = useState([]);
   const [top20TvWeek, setTop20TvWeek] = useState([]);
+  const [showDialog, setShowDialog] = useState(false);
+  const [selectedPopupItem, setSelectedPopupItem] = useState(null);
 
   useEffect(() => {
     fetch(
@@ -49,17 +52,29 @@ const Homepage = () => {
 
   return (
     <Wrapper>
-      <Header />
+            <Popup
+        selectedPopupItem={selectedPopupItem}
+        setSelectedPopupItem={setSelectedPopupItem}
+        showDialog={showDialog} setShowDialog={setShowDialog}
+      />
+      {!showDialog?<Header />:<PlaceHolder/>}
+      
       <FirstImage src={deadpool} />
       <Thumbnails
         thumbnailsArray={thumbnailsTop20Movie}
         setThumbnailsArray={setThumbnailsTop20Movie}
         moviesArray={top20MovieWeek}
+        selectedPopupItem={selectedPopupItem}
+        setSelectedPopupItem={setSelectedPopupItem}
+        setShowDialog={setShowDialog}
       />
       <Thumbnails
         thumbnailsArray={thumbnailsTop20Tv}
         setThumbnailsArray={setThumbnailsTop20Tv}
         moviesArray={top20TvWeek}
+        selectedPopupItem={selectedPopupItem}
+        setSelectedPopupItem={setSelectedPopupItem}
+        setShowDialog={setShowDialog}
       />
     </Wrapper>
   );
@@ -83,4 +98,7 @@ const FirstImage = styled.img`
   margin-top:calc(var(--header-height) * -1);
   /* margin-top:-80px; */
   /* top:var(----header-height); */
+`;
+export const PlaceHolder = styled.div`
+  height: var(--header-height);
 `;
