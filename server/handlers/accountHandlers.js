@@ -93,65 +93,10 @@ const getUserByID = async (req, res) => {
 
 
 
-const createNewWatchlist = async (req, res) => {
-  const data = req.body;
-  try {
-    await client.connect();
-    const db = client.db("what2watch");
-    const check = await db.collection("users").findOne({
-      _id: ObjectId(data.myId),
-      watchlists: { $elemMatch: { name: data.name } },
-    });
 
-    if (check) {
-      return res
-        .status(202)
-        .json({ status: 202, message: "watchlist name already exists" });
-    } else {
-      await db.collection("users").updateOne(
-        { _id: ObjectId(data.myId) },
-        {
-          $push: {
-            watchlists: { name: data.name, list: [] },
-          },
-        }
-      );
-      return res.status(200).json({
-        status: 200,
-        message: `watchlist '${data.name}' has been successfully created`,
-      });
-    }
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ status: 500, message: "Something went wrong" });
-  }
-};
-
-const deleteWatchList = async (req, res) => {
-  const data = req.body;
-  try {
-    await client.connect();
-    const db = await client.db("what2watch");
-    const statusDeleteWatchList = await db
-      .collection("users")
-      .updateOne(
-        { _id: ObjectId(data.myId) },
-        { $pull: { watchlists: { name: data.name } } },
-      );
-    return res.status(200).json({
-      status: 200,
-      message: "Successfully deleted",
-    });
-  } catch (error) {
-    // console.log(error);
-    res.status(500).json({ status: 500, message: "Something went wrong" });
-  }
-};
 
 module.exports = {
   signUp,
   getUser,
   getUserByID,
-  createNewWatchlist,
-  deleteWatchList,
 };

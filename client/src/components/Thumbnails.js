@@ -1,15 +1,25 @@
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { NUMBER_THUMBNAILS } from "../Constants";
 import Thumbnail from "./Thumbnail";
 
 const Thumbnails = ({
-  thumbnailsArray,
-  setThumbnailsArray,
+  // thumbnailsArray,
+  // setThumbnailsArray,
   moviesArray,
   selectedPopupItem,
   setSelectedPopupItem,
   setShowDialog,
 }) => {
+  const [thumbnailsArray,setThumbnailsArray] = useState([])
+
+  useEffect(() => {
+    setThumbnailsArray(moviesArray.slice(0, NUMBER_THUMBNAILS));
+  }, [moviesArray]);
+  // useEffect(() => {
+  //   setThumbnailsTop20Tv(top20TvWeek.slice(0, NUMBER_THUMBNAILS));
+  // }, [top20TvWeek]);
+
   const handleForward = () => {
     const firstElementId = thumbnailsArray[0].id;
     const lastElementPosition = moviesArray

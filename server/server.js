@@ -4,14 +4,9 @@ const {
   signUp,
   getUser,
   getUserByID,
-  createNewWatchlist,
-  deleteWatchList,
-
 } = require("./handlers/accountHandlers");
-const {
-
-  sendFriendRequest,
-} = require("./handlers/friendsHandlers");
+const { sendFriendRequest } = require("./handlers/friendsHandlers");
+const { addToWatchList, createNewWatchlist, deleteWatchList } = require("./handlers/listsHandlers");
 // user-546872
 require("dotenv").config();
 
@@ -40,6 +35,7 @@ express()
   .patch("/send-request", sendFriendRequest)
   .patch("/new-watchlist", createNewWatchlist)
   .patch("/delete-watchlist", deleteWatchList)
+  .patch("/add-to-watchlist", addToWatchList)
 
   .get("*", (req, res) => {
     res.status(404).json({

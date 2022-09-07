@@ -3,6 +3,7 @@ import "@reach/dialog/styles.css";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import MovieDetails from "./MovieDetails";
+import WatchListsModule from "./WatchListsModule";
 
 const Popup = ({
   selectedPopupItem,
@@ -45,22 +46,25 @@ const Popup = ({
         <Poster
           src={`http://image.tmdb.org/t/p/w500/${selectedPopupItem?.poster_path}`}
         />
-        {selectedPopupItem?.media_type === "movie" && (
-          <MovieDetails
-            selectedPopupItem={selectedPopupItem}
-            title={selectedPopupItem.title}
-            creditInfo={creditInfo}
-            date={selectedPopupItem.release_date}
-          />
-        )}
-        {selectedPopupItem?.media_type === "tv" && (
-          <MovieDetails
-            selectedPopupItem={selectedPopupItem}
-            title={selectedPopupItem.name}
-            creditInfo={creditInfo}
-            date={selectedPopupItem.first_air_date}
-          />
-        )}
+        <div>
+          {selectedPopupItem?.media_type === "movie" && (
+            <MovieDetails
+              selectedPopupItem={selectedPopupItem}
+              title={selectedPopupItem.title}
+              creditInfo={creditInfo}
+              date={selectedPopupItem.release_date}
+            />
+          )}
+          {selectedPopupItem?.media_type === "tv" && (
+            <MovieDetails
+              selectedPopupItem={selectedPopupItem}
+              title={selectedPopupItem.name}
+              creditInfo={creditInfo}
+              date={selectedPopupItem.first_air_date}
+            />
+          )}
+          <WatchListsModule selectedPopupItem={selectedPopupItem}/>
+        </div>
         <CloseButton onClick={close}>X</CloseButton>
       </Wrapper>
     </StyledDialog>

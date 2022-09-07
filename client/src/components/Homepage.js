@@ -7,9 +7,9 @@ import Thumbnails from "./Thumbnails";
 import Popup from "./Popup";
 
 const Homepage = () => {
-  const [thumbnailsTop20Movie, setThumbnailsTop20Movie] = useState([]);
+  // const [thumbnailsTop20Movie, setThumbnailsTop20Movie] = useState([]);
   const [top20MovieWeek, setTop20MovieWeek] = useState([]);
-  const [thumbnailsTop20Tv, setThumbnailsTop20Tv] = useState([]);
+  // const [thumbnailsTop20Tv, setThumbnailsTop20Tv] = useState([]);
   const [top20TvWeek, setTop20TvWeek] = useState([]);
   const [showDialog, setShowDialog] = useState(false);
   const [selectedPopupItem, setSelectedPopupItem] = useState(null);
@@ -43,12 +43,12 @@ const Homepage = () => {
       });
   }, [top20TvWeek]);
 
-  useEffect(() => {
-    setThumbnailsTop20Movie(top20MovieWeek.slice(0, NUMBER_THUMBNAILS));
-  }, [top20MovieWeek]);
-  useEffect(() => {
-    setThumbnailsTop20Tv(top20TvWeek.slice(0, NUMBER_THUMBNAILS));
-  }, [top20TvWeek]);
+  // useEffect(() => {
+  //   setThumbnailsTop20Movie(top20MovieWeek.slice(0, NUMBER_THUMBNAILS));
+  // }, [top20MovieWeek]);
+  // useEffect(() => {
+  //   setThumbnailsTop20Tv(top20TvWeek.slice(0, NUMBER_THUMBNAILS));
+  // }, [top20TvWeek]);
 
   return (
     <Wrapper>
@@ -61,16 +61,16 @@ const Homepage = () => {
       
       <FirstImage src={deadpool} />
       <Thumbnails
-        thumbnailsArray={thumbnailsTop20Movie}
-        setThumbnailsArray={setThumbnailsTop20Movie}
+        // thumbnailsArray={thumbnailsTop20Movie}
+        // setThumbnailsArray={setThumbnailsTop20Movie}
         moviesArray={top20MovieWeek}
         selectedPopupItem={selectedPopupItem}
         setSelectedPopupItem={setSelectedPopupItem}
         setShowDialog={setShowDialog}
       />
       <Thumbnails
-        thumbnailsArray={thumbnailsTop20Tv}
-        setThumbnailsArray={setThumbnailsTop20Tv}
+        // thumbnailsArray={thumbnailsTop20Tv}
+        // setThumbnailsArray={setThumbnailsTop20Tv}
         moviesArray={top20TvWeek}
         selectedPopupItem={selectedPopupItem}
         setSelectedPopupItem={setSelectedPopupItem}
