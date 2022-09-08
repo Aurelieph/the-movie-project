@@ -81,7 +81,7 @@ const addToWatchList = async (req, res)=>{
         { _id: ObjectId(data.myId) ,watchlists: { $elemMatch: { name: data.name }}},
         {
           $addToSet: {
-            "watchlists.$.list":data.movieId,
+            "watchlists.$.list":{id:data.movieId,media_type:data.media_type}
           },
         }
       );
@@ -95,6 +95,10 @@ const addToWatchList = async (req, res)=>{
     res.status(500).json({ status: 500, message: "Something went wrong" });
   }
 }
+
+// const getElById = async (req, res)=>{
+
+// }
 
 module.exports = {
   addToWatchList,

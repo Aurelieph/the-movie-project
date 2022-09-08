@@ -12,7 +12,8 @@ const WatchListsModule = ({selectedPopupItem}) => {
     const data = {
       name: e.target.watchlist.value,
       myId: currentUser._id,
-      movieId:selectedPopupItem.id
+      movieId:selectedPopupItem.id,
+      media_type:selectedPopupItem.media_type
     };
     await fetch("/add-to-watchlist", {
       method: "PATCH",
@@ -36,7 +37,7 @@ const WatchListsModule = ({selectedPopupItem}) => {
         <label for="watchlist">Add to:</label>
         <select id="watchlist" name="watchlist">
           {currentUser?.watchlists?.map((whatchlist) => {
-            return <option value={whatchlist.name}>{whatchlist.name}</option>;
+            return <option key={`myWatchListKey-${whatchlist.name}`} value={whatchlist.name}>{whatchlist.name}</option>;
           })}
         </select>
         <input type="submit" />

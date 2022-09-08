@@ -96,7 +96,9 @@ const Profile = () => {
             selectedPopupItem={selectedPopupItem}
             // setSelectedPopupItem={setSelectedPopupItem}
           />
-          <Whishlists/>
+          <Whishlists setShowDialog={setShowDialog}
+                  selectedPopupItem={selectedPopupItem}
+                  setSelectedPopupItem={setSelectedPopupItem}/>
         </ProfileBody>
       </Wrapper>
     </div>

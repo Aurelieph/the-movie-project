@@ -3,7 +3,8 @@ import "@reach/dialog/styles.css";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import MovieDetails from "./MovieDetails";
-import WatchListsModule from "./WatchListsModule";
+import WatchListsModule from "./PopupWatchListsModule";
+// import WatchListsModule from "./WatchListsModule";
 
 const Popup = ({
   selectedPopupItem,
@@ -21,17 +22,9 @@ const Popup = ({
   };
 
   useEffect(() => {
-    if (selectedPopupItem?.media_type === "movie") {
+    if (selectedPopupItem) {
       fetch(
-        `https://api.themoviedb.org/3/movie/${selectedPopupItem.id}/credits?api_key=2f1690ffc497ca72ea549460bdb184cf`
-      )
-        .then((res) => res.json())
-        .then((json) => {
-          setCreditInfo(json);
-        });
-    } else if (selectedPopupItem?.media_type === "tv") {
-      fetch(
-        `https://api.themoviedb.org/3/tv/${selectedPopupItem.id}/credits?api_key=2f1690ffc497ca72ea549460bdb184cf`
+        `https://api.themoviedb.org/3/${selectedPopupItem.media_type}/${selectedPopupItem.id}/credits?api_key=2f1690ffc497ca72ea549460bdb184cf`
       )
         .then((res) => res.json())
         .then((json) => {
@@ -63,7 +56,7 @@ const Popup = ({
               date={selectedPopupItem.first_air_date}
             />
           )}
-          <WatchListsModule selectedPopupItem={selectedPopupItem}/>
+          <WatchListsModule selectedPopupItem={selectedPopupItem} />
         </div>
         <CloseButton onClick={close}>X</CloseButton>
       </Wrapper>

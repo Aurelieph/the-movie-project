@@ -76,7 +76,7 @@ export default Thumbnails;
 const Wrapper = styled.div`
   position: relative;
   border-radius: 20px;
-  width: 90vw;
+  /* width: 90vw; */
   margin: auto;
   max-height: var(--thmubnails-banner-size);
   display: flex;
