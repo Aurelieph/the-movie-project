@@ -72,9 +72,70 @@ const sendFriendRequest = async (req, res) => {
     res.status(500).json({ status: 500, message: "Something went wrong" });
   }
 };
-const handleFriendRequest = async (req, res) => {};
+const handleFriendRequest = async (req, res) => {
+  const data = req.body;
+  try {
+    await client.connect();
+    const db = client.db("what2watch");
+
+    switch(data.action){
+      case "accept":
+        console.log("accept1")
+        break;
+      case "refuse":
+        console.log("refuse2")
+        break;
+      case "remove":
+        console.log("remove3")
+        break;
+      }
+    }catch (error) {
+        console.log(error);
+        res.status(500).json({ status: 500, message: "Something went wrong" });
+      }
+      //     return res.status(404).json({
+      //       status: 404,
+      //       message: "the user was not found",
+      //       body: currentUser,
+      //     });
+  //       await db.collection("users").updateOne(
+  //         { _id: ObjectId(data.friend_id) },
+  //         {
+  //           $addToSet: {
+  //             friendRequestReceived: { id: data.myId, date: today },
+  //           },
+  //         }
+  //       );
+  //       await db.collection("users").updateOne(
+  //         { _id: ObjectId(data.myId) },
+  //         {
+  //           $addToSet: {
+  //             friendRequestSent: { id: data.friend_id, date: today },
+  //           },
+  //         }
+  //       );
+  //       return res.status(200).json({ status: 200, message: "request sent" });
+  //     } else {
+  //       return res
+  //         .status(202)
+  //         .json({ status: 202, message: "request already sent" });
+  //     }
+  //   } else {
+  //     return res.status(404).json({
+  //       status: 404,
+  //       message: "the user was not found",
+  //       body: currentUser,
+  //     });
+  //   }
+  // } catch (error) {
+  //   console.log(error);
+  //   res.status(500).json({ status: 500, message: "Something went wrong" });
+  // }
+
+};
 
 module.exports = {
   sendFriendRequest,
   handleFriendRequest,
+  
 };

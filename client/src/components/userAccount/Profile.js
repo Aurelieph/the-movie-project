@@ -1,17 +1,17 @@
 import { useState } from "react";
 import styled from "styled-components";
-import Header from "./Header";
-import bridesmaid from "./images/bridemaids.jpg";
-import bridesmaid2 from "./images/bridemaids2.jpg";
+import Header from "../Header";
+import bridesmaid from "../images/bridemaids.jpg";
+import bridesmaid2 from "../images/bridemaids2.jpg";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect } from "react";
 import { useContext } from "react";
-import { GlobalContext } from "./GlobalContext";
+import { GlobalContext } from "../GlobalContext";
 import { useParams } from "react-router-dom";
-import Search from "./Search";
-import Popup from "./Popup";
+import Popup from "../Movies/Popup";
 import Whishlists from "./Wishlists";
-import { PlaceHolder } from "./Homepage";
+import { PlaceHolder } from "../Homepage";
+import Search from "../Movies/Search";
 
 const Profile = () => {
   // const [watching, setWatching] = useState("Bridemaids");
@@ -23,6 +23,11 @@ const Profile = () => {
   const [text, setText] = useState("");
   const [selectedPopupItem, setSelectedPopupItem] = useState(null);
   const [showDialog, setShowDialog] = useState(false);
+
+  const handleSelect = (suggestion) => {
+    setShowDialog(true);
+    setSelectedPopupItem(suggestion);
+  };
   useEffect(() => {
     fetch(`/user-id/${params.id}`)
       .then((res) => res.json())
@@ -70,9 +75,10 @@ const Profile = () => {
       <Popup
         selectedPopupItem={selectedPopupItem}
         setSelectedPopupItem={setSelectedPopupItem}
-        showDialog={showDialog} setShowDialog={setShowDialog}
+        showDialog={showDialog}
+        setShowDialog={setShowDialog}
       />
-      {!showDialog?<Header />:<PlaceHolder/>}
+      {!showDialog ? <Header /> : <PlaceHolder />}
       <Banner>
         <BannerImg src={bridesmaid2} />
       </Banner>
@@ -89,16 +95,16 @@ const Profile = () => {
             setText={setText}
             suggestions={searchResults}
             // categories={data.categories}
-            handleSelect={(suggestion) => {
-              setShowDialog(true)
-              setSelectedPopupItem(suggestion);
-            }}
+            handleSelect={handleSelect}
             selectedPopupItem={selectedPopupItem}
             // setSelectedPopupItem={setSelectedPopupItem}
+            showDialog={showDialog}
           />
-          <Whishlists setShowDialog={setShowDialog}
-                  selectedPopupItem={selectedPopupItem}
-                  setSelectedPopupItem={setSelectedPopupItem}/>
+          <Whishlists
+            setShowDialog={setShowDialog}
+            selectedPopupItem={selectedPopupItem}
+            setSelectedPopupItem={setSelectedPopupItem}
+          />
         </ProfileBody>
       </Wrapper>
     </div>

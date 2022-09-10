@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import styled from "styled-components";
 import Suggestion from "./Suggestion";
 
-const Search = ({ suggestions, handleSelect, text, setText }) => {
+const Search = ({ suggestions, handleSelect, text, setText, showDialog }) => {
   // const Search = ({ suggestions, handleSelect ,categories}) =>{
 
   // const [filteredSuggestions, setFilteredSuggestions] = useState([]);
@@ -21,7 +21,7 @@ const Search = ({ suggestions, handleSelect, text, setText }) => {
         onKeyDown={(ev) => {
           switch (ev.key) {
             case "Enter": {
-              handleSelect(suggestions[selectedSuggestionIndex]?.title);
+              handleSelect(suggestions[selectedSuggestionIndex]);
               return;
             }
             case "ArrowUp": {
@@ -42,17 +42,14 @@ const Search = ({ suggestions, handleSelect, text, setText }) => {
       <StyledButton
         onClick={() => {
           setText("");
-          // setFilteredSuggestions([]);
         }}
       >
         Clear
       </StyledButton>
 
-      {suggestions.length !== 0 && text.length > 2 && (
-        // {filteredSuggestions.length !== 0 && (
+      {suggestions.length !== 0 && text.length > 2 && showDialog === false && (
         <StyledUl>
           {suggestions.map((suggestion, index) => {
-            // {filteredSuggestions.map((suggestion, index) => {
             const isSelected = selectedSuggestionIndex === index ? true : false;
             return (
               <Suggestion
@@ -60,7 +57,7 @@ const Search = ({ suggestions, handleSelect, text, setText }) => {
                 suggestion={suggestion}
                 selectedSuggestionIndex={selectedSuggestionIndex}
                 setSelectedSuggestionIndex={setSelectedSuggestionIndex}
-                handleSelect={handleSelect}
+                handleSelect={() => handleSelect(suggestion)}
                 index={index}
                 text={text}
                 isSelected={isSelected}
@@ -96,11 +93,14 @@ const StyledInput = styled.input`
   border-radius: 5px;
   border: solid 1px lightgray;
   padding-left: 10px;
-  z-index:1;
+  z-index: 1;
 `;
 
 const StyledUl = styled.ul`
   box-shadow: 0 4px 10px 1px lightgray;
   padding: 10px;
   width: 380px;
+  position: absolute;
+  z-index: 1;
+  background-color: white;
 `;

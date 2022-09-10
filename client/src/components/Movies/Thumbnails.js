@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { NUMBER_THUMBNAILS } from "../Constants";
+import { NUMBER_THUMBNAILS } from "../../Constants";
 import Thumbnail from "./Thumbnail";
 
 const Thumbnails = ({
@@ -10,6 +10,8 @@ const Thumbnails = ({
   selectedPopupItem,
   setSelectedPopupItem,
   setShowDialog,
+  editMode,
+  handleDeleteFromWatchlist,
 }) => {
   const [thumbnailsArray,setThumbnailsArray] = useState([])
 
@@ -24,7 +26,7 @@ const Thumbnails = ({
     const firstElementId = thumbnailsArray[0].id;
     const lastElementPosition = moviesArray
       .map((el) => el.id)
-      .indexOf(thumbnailsArray[NUMBER_THUMBNAILS - 1].id);
+      .indexOf(thumbnailsArray[Math.min( NUMBER_THUMBNAILS , moviesArray.length) - 1].id);
     if (lastElementPosition < moviesArray.length - 1) {
       setThumbnailsArray((prevArray) =>
         prevArray.filter((movie) => movie.id !== firstElementId)
@@ -36,7 +38,7 @@ const Thumbnails = ({
     }
   };
   const handleBackward = () => {
-    const lastElementId = thumbnailsArray[NUMBER_THUMBNAILS - 1].id;
+    const lastElementId = thumbnailsArray[Math.min( NUMBER_THUMBNAILS , moviesArray.length) - 1].id;
     const firstElementPosition = moviesArray
       .map((el) => el.id)
       .indexOf(thumbnailsArray[0].id);
@@ -62,6 +64,10 @@ const Thumbnails = ({
               selectedPopupItem={selectedPopupItem}
               setSelectedPopupItem={setSelectedPopupItem}
               setShowDialog={setShowDialog}
+              editMode={editMode}
+              handleDeleteFromWatchlist={handleDeleteFromWatchlist}
+
+
             />
           </div>
         );

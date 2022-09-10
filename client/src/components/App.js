@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useContext } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import Friends from "./Friends";
+import Friends from "./userAccount/Friends";
 import { GlobalContext } from "./GlobalContext";
 import Homepage from "./Homepage";
-import MyAccount from "./MyAccount";
-import Profile from "./Profile";
-import Signin from "./Signin";
-import Signout from "./Signout";
+import MyAccount from "./userAccount/MyAccount";
+import Profile from "./userAccount/Profile";
+import Signin from "./userAccount/Signin";
+import Signout from "./userAccount/Signout";
 
 function App() {
   const { currentUser,setCurrentUser } = useContext(GlobalContext);

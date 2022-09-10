@@ -12,7 +12,7 @@ const Suggestion = ({
   date,
 }) => {
   if (!title.toLowerCase().includes(text.toLowerCase())) {
-    return "" ;
+    return "";
   } else
     return (
       <Wrapper
@@ -31,15 +31,13 @@ const Suggestion = ({
           <MovieImg
             src={`http://image.tmdb.org/t/p/w92/${suggestion.poster_path}`}
           />
-        ):<ImgPlaceholder/>}
-        {/* <span>{suggestion.id}</span> */}
+        ) : (
+          <ImgPlaceholder />
+        )}
         <span>
-          {/* /0:{title.toLowerCase().indexOf(text.toLowerCase())}/ */}
-
           {title.substr(0, title.toLowerCase().indexOf(text.toLowerCase()))}
 
           <Prediction>
-            {/* /{title.toLowerCase().indexOf(text.toLowerCase())}:{text.length}/ */}
             {title.substr(
               title.toLowerCase().indexOf(text.toLowerCase()),
 
@@ -47,14 +45,12 @@ const Suggestion = ({
             )}
           </Prediction>
           <span>
-            {/* / {title.toLowerCase().indexOf(text.toLowerCase())} +{ text.length}/ */}
             {title.substr(
               title.toLowerCase().indexOf(text.toLowerCase()) + text.length
             )}
           </span>
           <Date>- {date?.substr(0, 4)}</Date>
           <Media>{suggestion.media_type}</Media>
-          {/* <Category>{categories[suggestion.categoryId].name}</Category> */}
         </span>
       </Wrapper>
     );
@@ -65,11 +61,12 @@ export default Suggestion;
 const Wrapper = styled.li`
   padding: 15px;
   &:hover {
+    cursor:pointer;
     background-color: rgb(255, 250, 228);
   }
   display: flex;
   align-items: center;
-  height:60px;
+  height: 60px;
 `;
 const Media = styled.span`
   font-size: 10px;
@@ -83,13 +80,13 @@ const MovieImg = styled.img`
   &:hover {
     height: 110px;
     /* position:absolute; */
-    margin-left:-15px;
+    margin-left: -15px;
   }
 `;
 const ImgPlaceholder = styled.div`
   height: 60px;
   margin-right: 5px;
-  width:45px;
+  width: 45px;
   border: 1px solid gray;
 `;
 const Date = styled.span`
@@ -99,15 +96,4 @@ const Date = styled.span`
 
 const Prediction = styled.span`
   font-weight: bold;
-`;
-const Italic = styled.span`
-  font-style: italic;
-  font-size: 14px;
-  margin-right: 5px;
-  margin-left: 5px;
-`;
-const Category = styled.span`
-  font-style: italic;
-  font-size: 14px;
-  color: purple;
 `;

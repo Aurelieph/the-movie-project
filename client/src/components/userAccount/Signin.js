@@ -1,25 +1,26 @@
 import styled from "styled-components";
-import Header from "./Header";
+import Header from "../Header";
 import { useAuth0 } from "@auth0/auth0-react";
 
-const Signout = () => {
+const Signin = () => {
   const {isAuthenticated} = useAuth0();
   return (
     <div>
       <Header />
       <Wrapper>
-        <LogoutButton/>
+        <LoginButton />
       </Wrapper>
     </div>
   );
 };
 
-export default Signout;
+export default Signin;
 
 const Wrapper = styled.div`
   position: absolute;
   top: var(--header-height);
   display: block;
+  background-color: blue;
 `;
 
 const LoginButton = () => {

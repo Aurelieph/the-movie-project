@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { GlobalContext } from "./GlobalContext";
+import { GlobalContext } from "../GlobalContext";
 
 const WatchListsModule = ({selectedPopupItem}) => {
   const { currentUser, setCurrentUser, update, setUpdate } =
@@ -26,22 +26,24 @@ const WatchListsModule = ({selectedPopupItem}) => {
       .then((res) => res.json())
       .then((json) => {
         setMessage(json.message);
-        // setUpdate(!update)
+        setUpdate(!update)
+
       })
       .catch((err) => console.log(err));
   };
 
   return (
     <div>
+      {currentUser&&
       <form onSubmit={handleSubmit}>
-        <label for="watchlist">Add to:</label>
+        <label htmlFor="watchlist">Add to:</label>
         <select id="watchlist" name="watchlist">
           {currentUser?.watchlists?.map((whatchlist) => {
             return <option key={`myWatchListKey-${whatchlist.name}`} value={whatchlist.name}>{whatchlist.name}</option>;
           })}
         </select>
         <input type="submit" />
-      </form>
+      </form>}
     </div>
   );
 };

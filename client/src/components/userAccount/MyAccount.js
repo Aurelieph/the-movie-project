@@ -2,8 +2,8 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect } from "react";
 import { useContext } from "react";
 import styled from "styled-components";
-import { GlobalContext } from "./GlobalContext";
-import Header from "./Header";
+import { GlobalContext } from "../GlobalContext";
+import Header from "../Header";
 import { useNavigate } from 'react-router-dom';
 const MyAccount = () => {
   const { user, isAuthenticated, isLoading } = useAuth0();

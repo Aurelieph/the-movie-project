@@ -3,8 +3,8 @@ import styled from "styled-components";
 import Header from "./Header";
 import { useEffect, useState } from "react";
 import { NUMBER_THUMBNAILS } from "../Constants";
-import Thumbnails from "./Thumbnails";
-import Popup from "./Popup";
+import Thumbnails from "./Movies/Thumbnails";
+import Popup from "./Movies/Popup";
 
 const Homepage = () => {
   // const [thumbnailsTop20Movie, setThumbnailsTop20Movie] = useState([]);

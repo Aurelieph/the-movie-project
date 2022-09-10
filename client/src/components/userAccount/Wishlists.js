@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
-import { GlobalContext } from "./GlobalContext";
+import { GlobalContext } from "../GlobalContext";
 import Wishlist from "./Wishlist";
 
 const Whishlists = ({setShowDialog,selectedPopupItem,setSelectedPopupItem}) => {
@@ -9,7 +9,12 @@ const Whishlists = ({setShowDialog,selectedPopupItem,setSelectedPopupItem}) => {
   const [currentWatchListName, setCurrentWatchListName] = useState(null);
 
   useEffect(()=>{
-    setCurrentWatchListName(currentUser?.watchlists[0]?.name)
+    if(currentUser?.watchlists){
+if(!currentWatchListName){
+  setCurrentWatchListName(currentUser?.watchlists[0]?.name)
+
+}
+    }
   },[currentUser])
 
 
@@ -49,7 +54,7 @@ const Whishlists = ({setShowDialog,selectedPopupItem,setSelectedPopupItem}) => {
         </label>
         <input type="submit" />
       </form>
-
+      {currentUser?.watchlists &&
       <List>
         <form onChange={handleSelection}>
           <label htmlFor="watchlist">Select:</label>
@@ -73,6 +78,7 @@ const Whishlists = ({setShowDialog,selectedPopupItem,setSelectedPopupItem}) => {
               setSelectedPopupItem={setSelectedPopupItem}
             />
       </List>
+}
       {message && <div>{message}</div>}
     </div>
   );

@@ -3,7 +3,7 @@ import "@reach/dialog/styles.css";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import MovieDetails from "./MovieDetails";
-import WatchListsModule from "./PopupWatchListsModule";
+import WatchListsModule from "../PopupWatchListsModule";
 // import WatchListsModule from "./WatchListsModule";
 
 const Popup = ({
@@ -94,8 +94,8 @@ const Poster = styled.img`
 
 const StyledDialog = styled(Dialog)`
   width: 80vw;
-  /* z-index:20; */
-  margin: 20px auto;
+  z-index:20;
+    margin: 20px auto;
 `;
 
 export default Popup;
