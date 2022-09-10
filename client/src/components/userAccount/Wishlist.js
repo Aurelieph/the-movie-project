@@ -2,19 +2,26 @@ import { useContext, useEffect, useState } from "react";
 import { GlobalContext } from "../GlobalContext";
 import Thumbnails from "../Movies/Thumbnails";
 
-const Wishlist = ({ watchlistName, message, setMessage ,setShowDialog,selectedPopupItem,setSelectedPopupItem}) => {
+const Wishlist = ({
+  watchlistName,
+  message,
+  setMessage,
+  setShowDialog,
+  selectedPopupItem,
+  setSelectedPopupItem,
+  userInfo,
+}) => {
   const { currentUser, update, setUpdate } = useContext(GlobalContext);
   const [watchList, setWatchlist] = useState([]);
-  const [editMode, setEditMode] =useState(false)
+  const [editMode, setEditMode] = useState(false);
 
-
-  useEffect(()=>{
-    setMessage(null)
-  },[])
   useEffect(() => {
-    setWatchlist([])
+    setMessage(null);
+  }, []);
 
-    const simpleList = currentUser?.watchlists?.find((el) => {
+  useEffect(() => {
+    setWatchlist([]);
+    const simpleList = userInfo?.watchlists?.find((el) => {
       return el.name === watchlistName;
     });
     simpleList?.list.map((el) => {
@@ -23,19 +30,17 @@ const Wishlist = ({ watchlistName, message, setMessage ,setShowDialog,selectedPo
       )
         .then((res) => res.json())
         .then((json) => {
-          json.media_type=el.media_type
+          json.media_type = el.media_type;
           setWatchlist((watchList) => [...watchList, json]);
         });
     });
-  }, [currentUser]);
-
+  }, [userInfo]);
 
   const handleDeleteWatchList = async (e) => {
     e.preventDefault();
-    console.log(e.target.name);
     const data = {
       name: e.target.name,
-      myId: currentUser._id,
+      myId: userInfo._id,
     };
     await fetch("/delete-watchlist", {
       method: "PATCH",
@@ -53,18 +58,16 @@ const Wishlist = ({ watchlistName, message, setMessage ,setShowDialog,selectedPo
       .catch((err) => console.log(err));
   };
 
-  const toggleEditMode = (e)=>{
-    e.preventDefault()
-    setEditMode(!editMode)
-  }
+  const toggleEditMode = (e) => {
+    e.preventDefault();
+    setEditMode(!editMode);
+  };
   const handleDeleteFromWatchlist = async (movieId) => {
-    // e.preventDefault();
-    console.log("delete");
     const data = {
-      myId: currentUser._id,
-      name:watchlistName,
-      movieId:movieId,
-    }
+      myId: userInfo._id,
+      name: watchlistName,
+      movieId: movieId,
+    };
     await fetch("/remove-from-watchlist", {
       method: "PATCH",
       headers: {
@@ -76,18 +79,19 @@ const Wishlist = ({ watchlistName, message, setMessage ,setShowDialog,selectedPo
       .then((res) => res.json())
       .then((json) => {
         setUpdate(!update);
-        setMessage(json.message)
+        setMessage(json.message);
       })
       .catch((err) => console.log(err));
-
   };
   return (
     <div>
       {watchlistName}
-      {editMode&&<button onClick={handleDeleteWatchList} name={watchlistName}>
-        x
-      </button>}
-      <button onClick={toggleEditMode}>{editMode?"done":"edit"}</button>
+      {editMode && (
+        <button onClick={handleDeleteWatchList} name={watchlistName}>
+          x
+        </button>
+      )}
+      <button onClick={toggleEditMode}>{editMode ? "done" : "edit"}</button>
       <Thumbnails
         moviesArray={watchList}
         selectedPopupItem={selectedPopupItem}

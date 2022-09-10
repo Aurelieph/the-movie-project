@@ -6,15 +6,11 @@ export default createGlobalStyle`
     :root {
       --primary-color: 	220,220,220;//white/gray
       --secondary-color : #e0edf4;
-      /* --page-horizontal-padding: 20px; */
       --header-height: 80px;
       --banner-height: 300px;
 			--profile-image-size:300px;
 			--thumbnails-banner-size:300px;
 			--number-thumbnails:${NUMBER_THUMBNAILS}
-      /* --max-content-width: 1200px;
-      --heading-font-family: Garamond, Helvetica, sans-serif;
-      --user-img-width: 120px;  */
     }
 
 /* http://meyerweb.com/eric/tools/css/reset/ 

@@ -3,32 +3,32 @@ import styled from "styled-components";
 import { GlobalContext } from "../GlobalContext";
 import Wishlist from "./Wishlist";
 
-const Whishlists = ({setShowDialog,selectedPopupItem,setSelectedPopupItem}) => {
+const Whishlists = ({setShowDialog,selectedPopupItem,setSelectedPopupItem,userInfo}) => {
   const { currentUser, update, setUpdate } = useContext(GlobalContext);
   const [message, setMessage] = useState(null);
   const [currentWatchListName, setCurrentWatchListName] = useState(null);
+  const [updateLocal,setUpdateLocal]= useState(false)
 
   useEffect(()=>{
-    if(currentUser?.watchlists){
-if(!currentWatchListName){
-  setCurrentWatchListName(currentUser?.watchlists[0]?.name)
-
+    if(userInfo?.watchlists){
+      setCurrentWatchListName(userInfo?.watchlists[0]?.name)
+// if(!currentWatchListName){
+//   setCurrentWatchListName(userInfo?.watchlists[0]?.name)
+  
+// }
 }
-    }
-  },[currentUser])
+  },[userInfo,currentUser])
 
 
   const handleSelection = async (e) => {
     e.preventDefault();
-    console.log(e.target.value)
     setCurrentWatchListName(e.target.value)
   }
   const handleCreation = async (e) => {
     e.preventDefault();
-    console.log(e.target.watchlist.value);
     const data = {
       name: e.target.watchlist.value,
-      myId: currentUser._id,
+      myId: userInfo._id,
     };
     await fetch("/new-watchlist", {
       method: "PATCH",
@@ -42,6 +42,7 @@ if(!currentWatchListName){
       .then((json) => {
         setMessage(json.message);
         setUpdate(!update);
+        // setUpdateLocal(!updateLocal)
       })
       .catch((err) => console.log(err));
   };
@@ -54,12 +55,12 @@ if(!currentWatchListName){
         </label>
         <input type="submit" />
       </form>
-      {currentUser?.watchlists &&
+      {userInfo?.watchlists &&
       <List>
         <form onChange={handleSelection}>
           <label htmlFor="watchlist">Select:</label>
           <select id="watchlist" name="watchlist">
-            {currentUser?.watchlists?.map((el) => {
+            {userInfo?.watchlists?.map((el) => {
               return (
 
                   <option key={`name-${el.name}`} value={el.name} >{el.name} </option>
@@ -69,7 +70,8 @@ if(!currentWatchListName){
           </select>
         </form>
             <Wishlist
-              key={`wishlist-${currentUser?._id}-${currentWatchListName}`}
+              key={`wishlist-${userInfo?._id}-${currentWatchListName}`}
+              userInfo={userInfo}
               watchlistName={currentWatchListName}
               message={message}
               setMessage={setMessage}

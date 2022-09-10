@@ -3,7 +3,7 @@ import Header from "../Header";
 import { useAuth0 } from "@auth0/auth0-react";
 
 const Signin = () => {
-  const {isAuthenticated} = useAuth0();
+  const { isAuthenticated } = useAuth0();
   return (
     <div>
       <Header />
@@ -38,4 +38,3 @@ const LogoutButton = () => {
     </button>
   );
 };
-

@@ -3,9 +3,6 @@ import styled from "styled-components";
 import Suggestion from "./Suggestion";
 
 const Search = ({ suggestions, handleSelect, text, setText, showDialog }) => {
-  // const Search = ({ suggestions, handleSelect ,categories}) =>{
-
-  // const [filteredSuggestions, setFilteredSuggestions] = useState([]);
   const [selectedSuggestionIndex, setSelectedSuggestionIndex] = useState(0);
 
   return (

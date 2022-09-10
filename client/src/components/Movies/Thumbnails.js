@@ -4,8 +4,6 @@ import { NUMBER_THUMBNAILS } from "../../Constants";
 import Thumbnail from "./Thumbnail";
 
 const Thumbnails = ({
-  // thumbnailsArray,
-  // setThumbnailsArray,
   moviesArray,
   selectedPopupItem,
   setSelectedPopupItem,
@@ -13,20 +11,19 @@ const Thumbnails = ({
   editMode,
   handleDeleteFromWatchlist,
 }) => {
-  const [thumbnailsArray,setThumbnailsArray] = useState([])
+  const [thumbnailsArray, setThumbnailsArray] = useState([]);
 
   useEffect(() => {
     setThumbnailsArray(moviesArray.slice(0, NUMBER_THUMBNAILS));
   }, [moviesArray]);
-  // useEffect(() => {
-  //   setThumbnailsTop20Tv(top20TvWeek.slice(0, NUMBER_THUMBNAILS));
-  // }, [top20TvWeek]);
 
   const handleForward = () => {
     const firstElementId = thumbnailsArray[0].id;
     const lastElementPosition = moviesArray
       .map((el) => el.id)
-      .indexOf(thumbnailsArray[Math.min( NUMBER_THUMBNAILS , moviesArray.length) - 1].id);
+      .indexOf(
+        thumbnailsArray[Math.min(NUMBER_THUMBNAILS, moviesArray.length) - 1].id
+      );
     if (lastElementPosition < moviesArray.length - 1) {
       setThumbnailsArray((prevArray) =>
         prevArray.filter((movie) => movie.id !== firstElementId)
@@ -38,7 +35,8 @@ const Thumbnails = ({
     }
   };
   const handleBackward = () => {
-    const lastElementId = thumbnailsArray[Math.min( NUMBER_THUMBNAILS , moviesArray.length) - 1].id;
+    const lastElementId =
+      thumbnailsArray[Math.min(NUMBER_THUMBNAILS, moviesArray.length) - 1].id;
     const firstElementPosition = moviesArray
       .map((el) => el.id)
       .indexOf(thumbnailsArray[0].id);
@@ -66,8 +64,6 @@ const Thumbnails = ({
               setShowDialog={setShowDialog}
               editMode={editMode}
               handleDeleteFromWatchlist={handleDeleteFromWatchlist}
-
-
             />
           </div>
         );
@@ -82,7 +78,6 @@ export default Thumbnails;
 const Wrapper = styled.div`
   position: relative;
   border-radius: 20px;
-  /* width: 90vw; */
   margin: auto;
   max-height: var(--thmubnails-banner-size);
   display: flex;

@@ -11,9 +11,7 @@ const Popup = ({
   showDialog,
   setShowDialog,
 }) => {
-  // selectedPopupItem={selectedPopupItem} setSelectedPopupItem={setSelectedPopupItem}
   const [creditInfo, setCreditInfo] = useState(null);
-
   const close = () => {
     setShowDialog(false);
     setSelectedPopupItem(null);
@@ -64,7 +62,6 @@ const Popup = ({
 };
 
 const CloseButton = styled.button`
-  /* width: fit-content; */
   height: fit-content;
   background-color: var(--secondary-color);
   position: absolute;
@@ -77,24 +74,18 @@ const CloseButton = styled.button`
   padding: 2px 5px;
   &:hover {
     color: white;
-    /* border:none; */
   }
 `;
 const Wrapper = styled.div`
   display: flex;
   position: relative;
-  /* z-index:20; */
 `;
-const Poster = styled.img`
-  /* max-width: 50%;
-  height: auto;
-  max-height:80vh; */
-`;
+const Poster = styled.img``;
 
 const StyledDialog = styled(Dialog)`
   width: 80vw;
-  z-index:20;
-    margin: 20px auto;
+  z-index: 20;
+  margin: 20px auto;
 `;
 
 export default Popup;

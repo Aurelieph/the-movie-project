@@ -11,19 +11,15 @@ import Signout from "./userAccount/Signout";
 
 function App() {
   const { currentUser,setCurrentUser } = useContext(GlobalContext);
-  // const [message, setMessage] = useState("no")
-  // useEffect(()=>{
-  //   fetch("/fetch").then(res=>res.json()).then(data => setMessage(data.message)).catch(e=>console.log("error"))
-  // })
   return (
     <BrowserRouter>
       <Routes>
         <Route exact path="/" element={<Homepage />} />
-        <Route path="/signin" element={<Signin />} />
-        <Route path="/signout" element={<Signout />} />
-        <Route path="/account" element={<MyAccount />} />
-        <Route path="/friends" element={<Friends />} />
-        <Route path="/profile/:id"
+        <Route exact path="/signin" element={<Signin />} />
+        <Route exact path="/signout" element={<Signout />} />
+        <Route exact path="/account" element={<MyAccount />} />
+        <Route exact path="/friends" element={<Friends />} />
+        <Route exact path="/profile/:id"
         element={<Profile />} />
       </Routes>
     </BrowserRouter>

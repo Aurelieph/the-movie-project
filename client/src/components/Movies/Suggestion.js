@@ -26,7 +26,6 @@ const Suggestion = ({
             : "transparent",
         }}
       >
-        {/* {console.log("suggestion.id",suggestion.id)} */}
         {suggestion.poster_path ? (
           <MovieImg
             src={`http://image.tmdb.org/t/p/w92/${suggestion.poster_path}`}
@@ -61,7 +60,7 @@ export default Suggestion;
 const Wrapper = styled.li`
   padding: 15px;
   &:hover {
-    cursor:pointer;
+    cursor: pointer;
     background-color: rgb(255, 250, 228);
   }
   display: flex;
@@ -79,7 +78,6 @@ const MovieImg = styled.img`
   margin-right: 5px;
   &:hover {
     height: 110px;
-    /* position:absolute; */
     margin-left: -15px;
   }
 `;

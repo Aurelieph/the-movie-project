@@ -14,35 +14,37 @@ import { PlaceHolder } from "../Homepage";
 import Search from "../Movies/Search";
 
 const Profile = () => {
-  // const [watching, setWatching] = useState("Bridemaids");
   const [searchResults, setSearchResults] = useState([]);
   const { user, isAuthenticated, isLoading } = useAuth0();
-  const { currentUser, setCurrentUser } = useContext(GlobalContext);
+  const { currentUser, setCurrentUser, update } = useContext(GlobalContext);
   const [userInfo, setUserInfo] = useState(null);
   const params = useParams();
   const [text, setText] = useState("");
   const [selectedPopupItem, setSelectedPopupItem] = useState(null);
   const [showDialog, setShowDialog] = useState(false);
+  const [loaded, setLoaded] = useState(false);
 
   const handleSelect = (suggestion) => {
     setShowDialog(true);
     setSelectedPopupItem(suggestion);
   };
   useEffect(() => {
+    setUserInfo(null);
+    setLoaded(false);
     fetch(`/user-id/${params.id}`)
       .then((res) => res.json())
       .then((json) => {
         if (json.status === 200) {
           setUserInfo(json.data);
-          // console.log(json.message);
         } else {
           console.log(json.message);
         }
+        setLoaded(true);
       })
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [params.id, update]);
 
   useEffect(() => {
     if (text.length > 2) {
@@ -53,7 +55,6 @@ const Profile = () => {
       )
         .then((res) => res.json())
         .then((json) => {
-          // const maxValue = Math.min(json.results.length, 50);
           setSearchResults(
             json.results.filter((result) => {
               return (
@@ -61,13 +62,33 @@ const Profile = () => {
               );
             })
           );
-          console.log("json.results", json.results);
         });
     }
   }, [text]);
 
   if (isLoading) {
     return <div>Loading ...</div>;
+  }
+  if (!userInfo && loaded === true) {
+    return (
+      <>
+        <Header />
+        <div>Page doesn't exist</div>
+      </>
+    );
+  }
+
+  if (
+    !userInfo?.friends?.some((el) => el.id === currentUser?._id) &&
+    currentUser?._id !== userInfo?._id &&
+    loaded === true
+  ) {
+    return (
+      <>
+        <Header />
+        <div>you are not friend with this user</div>
+      </>
+    );
   }
 
   return (
@@ -94,16 +115,15 @@ const Profile = () => {
             text={text}
             setText={setText}
             suggestions={searchResults}
-            // categories={data.categories}
             handleSelect={handleSelect}
             selectedPopupItem={selectedPopupItem}
-            // setSelectedPopupItem={setSelectedPopupItem}
             showDialog={showDialog}
           />
           <Whishlists
             setShowDialog={setShowDialog}
             selectedPopupItem={selectedPopupItem}
             setSelectedPopupItem={setSelectedPopupItem}
+            userInfo={userInfo}
           />
         </ProfileBody>
       </Wrapper>
@@ -116,9 +136,6 @@ export default Profile;
 const Wrapper = styled.div`
   top: var(--header-height);
 `;
-// const PlaceHolder = styled.div`
-//   height: var(--header-height);
-// `;
 
 const Banner = styled.div`
   width: 100%;
@@ -131,7 +148,6 @@ const Banner = styled.div`
 `;
 const BannerImg = styled.img`
   min-width: 100vw;
-  /* width: 100%; */
   z-index: 2;
 `;
 
@@ -140,11 +156,8 @@ const ProfileInfo = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* margin: calc(var(--banner-height) -  var(--profile-image-size) / 2 ); */
-  /* top: calc(var(--banner-height) -  var(--profile-image-size) / 2 ); */
   margin: calc(var(--profile-image-size) / -2) 0 0 50px;
   width: var(--profile-image-size);
-  /* z-index: 3; */
 `;
 const Pseudo = styled.div`
   font-size: 32px;
@@ -176,13 +189,8 @@ const ProfilePicture = styled.div`
 
 const ProfileBody = styled.div`
   position: absolute;
-  /* display: flex;
-  flex-direction: column;
-  align-items: center; */
   top: var(--banner-height);
-  /* margin: 0 100px; */
   left: calc(var(--profile-image-size) + 100px);
-  /* z-index: 3; */
 `;
 
 const SearchField = styled.input``;

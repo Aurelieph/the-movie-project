@@ -1,27 +1,25 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { useEffect } from "react";
 import { useContext } from "react";
-import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 import { GlobalContext } from "../GlobalContext";
+import styled from "styled-components";
 import Header from "../Header";
-import { useNavigate } from 'react-router-dom';
 const MyAccount = () => {
   const { user, isAuthenticated, isLoading } = useAuth0();
   const { currentUser, setCurrentUser } = useContext(GlobalContext);
   let navigate = useNavigate();
 
-  useEffect(() => {}, []);
-
   const handleSignUp = async (e) => {
     e.preventDefault();
-    const { firstName, lastName, nickName, email ,watching} = e.target.elements;
+    const { firstName, lastName, nickName, email, watching } =
+      e.target.elements;
     const data = {
       firstName: firstName?.value,
       lastName: lastName?.value,
       email: email?.value,
       nickName: nickName?.value,
       token: user.sub,
-      watching:watching?.value
+      watching: watching?.value,
     };
     await fetch("/signup/", {
       method: "POST",
@@ -33,9 +31,9 @@ const MyAccount = () => {
     })
       .then((res) => res.json())
       .then((json) => {
-        if (json.status === 201||json.status === 200) {
+        if (json.status === 201 || json.status === 200) {
           setCurrentUser(json.data);
-          navigate(`/profile/${currentUser._id}`)
+          navigate(`/profile/${currentUser._id}`);
         }
       })
       .catch((err) => console.log(err));
@@ -46,42 +44,55 @@ const MyAccount = () => {
       <Header />
       {isAuthenticated && (
         <Wrapper>
-{          console.log("user",currentUser)
-}          <Title>Please confirm your informations</Title>
+          <Title>Please confirm your informations</Title>
           <Form onSubmit={handleSignUp}>
             <Label htmlFor="nickName"> Username</Label>
             <Input
               id="nickName"
               name="nickName"
-              key={currentUser?.nickName? currentUser.nickName : user?.nickname}
-              defaultValue={ currentUser?.nickName? currentUser.nickName : user?.nickname}
-              />
+              key={
+                currentUser?.nickName ? currentUser.nickName : user?.nickname
+              }
+              defaultValue={
+                currentUser?.nickName ? currentUser.nickName : user?.nickname
+              }
+            />
             <Label htmlFor="firstName" className="firstName">
               First Name
             </Label>
             <Input
               id="firstName"
               name="firstName"
-              key={currentUser?.firstName? currentUser.firstName : user?.given_name}
-              defaultValue={
-                currentUser?.firstName? currentUser.firstName : user?.given_name
+              key={
+                currentUser?.firstName
+                  ? currentUser.firstName
+                  : user?.given_name
               }
-              />
+              defaultValue={
+                currentUser?.firstName
+                  ? currentUser.firstName
+                  : user?.given_name
+              }
+            />
             <Label htmlFor="lastName"> Name</Label>
             <Input
               id="lastName"
               name="lastName"
-              key={currentUser?.lastName? currentUser.lastName : user?.family_name}
-              defaultValue={
-                currentUser?.lastName? currentUser.lastName : user?.family_name
+              key={
+                currentUser?.lastName ? currentUser.lastName : user?.family_name
               }
-              />
+              defaultValue={
+                currentUser?.lastName ? currentUser.lastName : user?.family_name
+              }
+            />
             <Label htmlFor="email"> email</Label>
             <Input
               id="email"
               name="email"
-              key={currentUser?.email? currentUser.email : user?.email}
-              defaultValue={currentUser?.email? currentUser.email : user?.email}
+              key={currentUser?.email ? currentUser.email : user?.email}
+              defaultValue={
+                currentUser?.email ? currentUser.email : user?.email
+              }
             />
             <Label htmlFor="watching"> What are you currently watching?</Label>
             <Input
