@@ -5,7 +5,7 @@ export const GlobalContext = createContext(null);
 
 export const GlobalProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
-  const { user, isAuthenticated, isLoading } = useAuth0();
+  const { user } = useAuth0();
   const [update, setUpdate] = useState(false);
 
   useEffect(() => {

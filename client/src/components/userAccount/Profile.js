@@ -7,7 +7,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect } from "react";
 import { useContext } from "react";
 import { GlobalContext } from "../GlobalContext";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Popup from "../Movies/Popup";
 import Whishlists from "./Wishlists";
 import { PlaceHolder } from "../Homepage";
@@ -15,14 +15,15 @@ import Search from "../Movies/Search";
 
 const Profile = () => {
   const [searchResults, setSearchResults] = useState([]);
-  const { user, isAuthenticated, isLoading } = useAuth0();
-  const { currentUser, setCurrentUser, update } = useContext(GlobalContext);
+  const { isLoading } = useAuth0();
+  const { currentUser, update } = useContext(GlobalContext);
   const [userInfo, setUserInfo] = useState(null);
   const params = useParams();
   const [text, setText] = useState("");
   const [selectedPopupItem, setSelectedPopupItem] = useState(null);
   const [showDialog, setShowDialog] = useState(false);
   const [loaded, setLoaded] = useState(false);
+  let navigate = useNavigate();
 
   const handleSelect = (suggestion) => {
     setShowDialog(true);
@@ -70,6 +71,9 @@ const Profile = () => {
     return <div>Loading ...</div>;
   }
   if (!userInfo && loaded === true) {
+    if(!currentUser){
+      return navigate("/account")
+    }
     return (
       <>
         <Header />

@@ -4,7 +4,6 @@ import Thumbnails from "../Movies/Thumbnails";
 
 const Wishlist = ({
   watchlistName,
-  message,
   setMessage,
   setShowDialog,
   selectedPopupItem,
@@ -91,7 +90,9 @@ const Wishlist = ({
           x
         </button>
       )}
-      <button onClick={toggleEditMode}>{editMode ? "done" : "edit"}</button>
+      {currentUser._id === userInfo._id && (
+        <button onClick={toggleEditMode}>{editMode ? "done" : "edit"}</button>
+      )}
       <Thumbnails
         moviesArray={watchList}
         selectedPopupItem={selectedPopupItem}
