@@ -3,8 +3,7 @@ import "@reach/dialog/styles.css";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import MovieDetails from "./MovieDetails";
-import WatchListsModule from "../PopupWatchListsModule";
-// import WatchListsModule from "./WatchListsModule";
+import WatchListsModule from "./PopupWatchListsModule";
 
 const Popup = ({
   selectedPopupItem,
