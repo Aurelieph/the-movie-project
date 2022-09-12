@@ -123,10 +123,77 @@ const removeFromWatchList = async (req, res) => {
     res.status(500).json({ status: 500, message: "Something went wrong" });
   }
 };
+const sendRecommendation = async (req, res) => {
+  const data = req.body;
+  try {
+    await client.connect();
+    const db = client.db("what2watch");
+    // await db.collection("users").updateOne(
+    //   {
+    //     _id: ObjectId(data.myId),
+    //     watchlists: { $elemMatch: { name: data.name } },
+    //   },
+    //   {
+    //     $addToSet: {
+    //       "watchlists.$.list": {
+    //         id: data.movieId,
+    //         media_type: data.media_type,
+    //       },
+    //     },
+    //   }
+    // );
+    const check = await db.collection("users").findOne({
+      _id: ObjectId(data.friendId),
+      watchlists: { $elemMatch: { name: "Recommendations" } },
+    });
+
+    if (check) {
+      await db.collection("users").updateOne(
+        {
+          _id: ObjectId(data.friendId),
+          watchlists: { $elemMatch: { name: "Recommendations" } },
+        },
+        {
+          $addToSet: {
+            "watchlists.$.list": {
+              id: data.movieId,
+              media_type: data.media_type,
+              recommended_by:data.myId,
+            },
+          },
+        }
+      );
+      return res
+        .status(202)
+        .json({ status: 202, message: "Recommendation sent" });
+    } else {
+      await db.collection("users").updateOne(
+        { _id: ObjectId(data.friendId) },
+        {
+          $push: {
+            watchlists: { name:"Recommendations", list: [{
+              id: data.movieId,
+              media_type: data.media_type,
+              recommended_by:data.myId,
+            }] },
+          },
+        }
+      );
+      return res.status(200).json({
+        status: 200,
+        message: `movie was sucessfully added to your watchlist`,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ status: 500, message: "Something went wrong" });
+  }
+};
 
 module.exports = {
   addToWatchList,
   deleteWatchList,
   createNewWatchlist,
   removeFromWatchList,
+  sendRecommendation,
 };

@@ -8,7 +8,7 @@ export default createGlobalStyle`
       --secondary-color : #e0edf4;
       --header-height: 80px;
       --banner-height: 300px;
-			--profile-image-size:300px;
+			--profile-image-size:200px;
 			--thumbnails-banner-size:300px;
 			--number-thumbnails:${NUMBER_THUMBNAILS}
     }
@@ -62,5 +62,13 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
+
+input,select,button{
+  height: 30px;
+  border-radius: 5px;
+  border: solid 1px lightgray;
+
+}
+
 
 `

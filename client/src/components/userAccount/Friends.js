@@ -4,45 +4,10 @@ import { GlobalContext } from "../GlobalContext";
 import Header from "../Header";
 
 const Friends = () => {
-  const { currentUser, setCurrentUser, update, setUpdate } =
+  const { currentUser, setCurrentUser, update, setUpdate,sentFriendsReq,receivedFriendsReq,friends } =
     useContext(GlobalContext);
   const [message, setMessage] = useState(null);
-  const [sentFriendsReq, setSentFriendsReq] = useState([]);
-  const [receivedFriendsReq, setReceivedFriendsReq] = useState([]);
-  const [friends, setFriends] = useState([]);
-
-  useEffect(() => {
-    setSentFriendsReq([]);
-    currentUser?.friendRequestSent?.map((el) => {
-      fetch(`/user-id/${el.id}`)
-        .then((res) => res.json())
-        .then((json) => {
-          json.data.date = el.date;
-          setSentFriendsReq((sentFriendsReq) => [...sentFriendsReq, json.data]);
-        });
-    });
-    setReceivedFriendsReq([]);
-    currentUser?.friendRequestReceived?.map((el) => {
-      fetch(`/user-id/${el.id}`)
-        .then((res) => res.json())
-        .then((json) => {
-          json.data.date = el.date;
-          setReceivedFriendsReq((receivedFriendsReq) => [
-            ...receivedFriendsReq,
-            json.data,
-          ]);
-        });
-    });
-    setFriends([]);
-    currentUser?.friends?.map((el) => {
-      fetch(`/user-id/${el.id}`)
-        .then((res) => res.json())
-        .then((json) => {
-          json.data.date = el.date;
-          setFriends((friends) => [...friends, json.data]);
-        });
-    });
-  }, [currentUser]);
+  
 
   const handleSendRequest = async (e) => {
     e.preventDefault();

@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from "react";
+import styled from "styled-components";
 import { GlobalContext } from "../GlobalContext";
 import Thumbnails from "../Movies/Thumbnails";
 
@@ -83,15 +84,15 @@ const Wishlist = ({
       .catch((err) => console.log(err));
   };
   return (
-    <div>
+    <Wrapper>
       {watchlistName}
       {editMode && (
-        <button onClick={handleDeleteWatchList} name={watchlistName}>
-          x
-        </button>
+        <Button onClick={handleDeleteWatchList} name={watchlistName} hidden={watchlistName==="Recommendations"?true:false}>
+          delete watchlist
+        </Button>
       )}
-      {currentUser._id === userInfo._id && (
-        <button onClick={toggleEditMode}>{editMode ? "done" : "edit"}</button>
+      {currentUser?._id === userInfo?._id && (
+        <Button onClick={toggleEditMode} >{editMode ? "done" : "edit"}</Button>
       )}
       <Thumbnails
         moviesArray={watchList}
@@ -101,8 +102,16 @@ const Wishlist = ({
         editMode={editMode}
         handleDeleteFromWatchlist={handleDeleteFromWatchlist}
       />
-    </div>
+    </Wrapper>
   );
 };
 
 export default Wishlist;
+
+const Button = styled.button`
+margin-left:10px;
+`
+const Wrapper= styled.div`
+max-width:100%;
+/* background-color:red; */
+`

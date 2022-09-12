@@ -11,6 +11,7 @@ const {
   createNewWatchlist,
   deleteWatchList,
   removeFromWatchList,
+  sendRecommendation,
 } = require("./handlers/listsHandlers");
 // user-546872
 require("dotenv").config();
@@ -43,6 +44,7 @@ express()
   .patch("/add-to-watchlist", addToWatchList)
   .patch("/remove-from-watchlist", removeFromWatchList)
   .patch("/update-friend-request", handleFriendRequest)
+  .patch("/send-recommendation", sendRecommendation)
 
   .get("*", (req, res) => {
     res.status(404).json({

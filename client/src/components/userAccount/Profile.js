@@ -12,6 +12,8 @@ import Popup from "../Movies/Popup";
 import Whishlists from "./Wishlists";
 import { PlaceHolder } from "../Homepage";
 import Search from "../Movies/Search";
+import Recommendation from "./Recommendation";
+import Wishlist from "./Wishlist";
 
 const Profile = () => {
   const [searchResults, setSearchResults] = useState([]);
@@ -23,6 +25,7 @@ const Profile = () => {
   const [selectedPopupItem, setSelectedPopupItem] = useState(null);
   const [showDialog, setShowDialog] = useState(false);
   const [loaded, setLoaded] = useState(false);
+  const [message, setMessage] = useState(null);
   let navigate = useNavigate();
 
   const handleSelect = (suggestion) => {
@@ -71,8 +74,8 @@ const Profile = () => {
     return <div>Loading ...</div>;
   }
   if (!userInfo && loaded === true) {
-    if(!currentUser){
-      return navigate("/account")
+    if (!currentUser) {
+      return navigate("/account");
     }
     return (
       <>
@@ -112,7 +115,6 @@ const Profile = () => {
           <ProfilePicture />
           <Pseudo>{userInfo?.nickName} </Pseudo>is watching{" "}
           <MovieName> {userInfo?.watching} </MovieName>
-          <ProviderName>on Netflix</ProviderName>
         </ProfileInfo>
         <ProfileBody className="profile-body">
           <Search
@@ -123,13 +125,31 @@ const Profile = () => {
             selectedPopupItem={selectedPopupItem}
             showDialog={showDialog}
           />
+        </ProfileBody>
+
+          <Title>Recommendations</Title>
+
+          <Wishlist
+            key={`wishlist-${userInfo?._id}-Recommendations`}
+            userInfo={userInfo}
+            watchlistName="Recommendations"
+            setShowDialog={setShowDialog}
+            selectedPopupItem={selectedPopupItem}
+            setSelectedPopupItem={setSelectedPopupItem}
+            message={message}
+            setMessage={setMessage}
+          />
+
+          <Title>My Watchlists</Title>
           <Whishlists
             setShowDialog={setShowDialog}
             selectedPopupItem={selectedPopupItem}
             setSelectedPopupItem={setSelectedPopupItem}
             userInfo={userInfo}
+            message={message}
+            setMessage={setMessage}
           />
-        </ProfileBody>
+
       </Wrapper>
     </div>
   );
@@ -138,8 +158,13 @@ const Profile = () => {
 export default Profile;
 
 const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
   top: var(--header-height);
+  width: 80vw;
+  margin: auto;
 `;
+
 
 const Banner = styled.div`
   width: 100%;
@@ -156,11 +181,12 @@ const BannerImg = styled.img`
 `;
 
 const ProfileInfo = styled.div`
-  position: static;
+  /* position: static; */
+  margin: calc(var(--profile-image-size) / -2) auto 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: calc(var(--profile-image-size) / -2) 0 0 50px;
+  /* margin: calc(var(--profile-image-size) / -2) 0 0 50px; */
   width: var(--profile-image-size);
 `;
 const Pseudo = styled.div`
@@ -192,9 +218,15 @@ const ProfilePicture = styled.div`
 `;
 
 const ProfileBody = styled.div`
-  position: absolute;
+  /* position: absolute; */
   top: var(--banner-height);
   left: calc(var(--profile-image-size) + 100px);
 `;
 
 const SearchField = styled.input``;
+const Title = styled.h2`
+  border: 1px solid black;
+  padding: 5px;
+  border-radius: 5px;
+  margin: 10px 0;
+`;

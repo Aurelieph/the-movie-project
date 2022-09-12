@@ -2,20 +2,21 @@ import { useContext, useState } from "react";
 import styled from "styled-components";
 import { GlobalContext } from "../GlobalContext";
 
-const WatchListsModule = ({ selectedPopupItem }) => {
-  const { currentUser, setCurrentUser, update, setUpdate } =
+const PopupRecommendation = ({ selectedPopupItem }) => {
+  const { currentUser, setCurrentUser, update, setUpdate,friends } =
     useContext(GlobalContext);
   const [message, setMessage] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = {
-      name: e.target.watchlist.value,
+      friendId: e.target.recommend.value,
       myId: currentUser._id,
       movieId: selectedPopupItem.id,
       media_type: selectedPopupItem.media_type,
     };
-    await fetch("/add-to-watchlist", {
+    console.log("data-recommend",data)
+    await fetch("/send-recommendation", {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -26,7 +27,7 @@ const WatchListsModule = ({ selectedPopupItem }) => {
       .then((res) => res.json())
       .then((json) => {
         setMessage(json.message);
-        setUpdate(!update);
+        // setUpdate(!update);
       })
       .catch((err) => console.log(err));
   };
@@ -35,19 +36,19 @@ const WatchListsModule = ({ selectedPopupItem }) => {
     <Wrapper>
       {currentUser && (
         <form onSubmit={handleSubmit}>
-          <Title>Wishlist</Title>
-          <label htmlFor="watchlist">Add to:</label>
-          <select id="watchlist" name="watchlist">
-            {currentUser?.watchlists?.map((whatchlist) => {
-              if(whatchlist.name!=="Recommendation"){
+          <Title>Recommend it</Title>
+          <label htmlFor="recommend">to:</label>
+          <select id="recommend" name="recommend">
+            {friends?.map((friend) => {
               return (
                 <option
-                  key={`myWatchListKey-${whatchlist.name}`}
-                  value={whatchlist.name}
+                  key={`recommend-${friend._id}`}
+                  value={friend._id}
+                  
                 >
-                  {whatchlist.name}
+                  {`${friend.nickName}-${friend.firstName}`}
                 </option>
-              )}
+              );
             })}
           </select>
           <input type="submit" />
@@ -57,7 +58,7 @@ const WatchListsModule = ({ selectedPopupItem }) => {
   );
 };
 
-export default WatchListsModule;
+export default PopupRecommendation;
 
 const Wrapper = styled.div`
 margin: 20px 40px;

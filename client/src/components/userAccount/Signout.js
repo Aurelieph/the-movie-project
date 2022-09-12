@@ -1,9 +1,14 @@
 import styled from "styled-components";
 import Header from "../Header";
 import { useAuth0 } from "@auth0/auth0-react";
+import { useEffect } from "react";
 
 const Signout = () => {
   const {isAuthenticated} = useAuth0();
+  const { logout } = useAuth0();
+  useEffect(()=>{
+    logout({ returnTo: window.location.origin })
+  },[])
   return (
     <div>
       <Header />
@@ -17,24 +22,21 @@ const Signout = () => {
 export default Signout;
 
 const Wrapper = styled.div`
-  position: absolute;
   top: var(--header-height);
-  display: block;
+  width:100%;
 `;
-
-const LoginButton = () => {
-  const { loginWithRedirect } = useAuth0();
-
-  return <button onClick={() => loginWithRedirect()}>Log In</button>;
-};
 
 const LogoutButton = () => {
   const { logout } = useAuth0();
 
   return (
-    <button onClick={() => logout({ returnTo: window.location.origin })}>
-      Log Out
-    </button>
+    <Button onClick={() => logout({ returnTo: window.location.origin })}>
+      SIGN OUT
+    </Button>
   );
 };
+const Button = styled.button`
+margin:100px auto;
+display: block;
+`
 

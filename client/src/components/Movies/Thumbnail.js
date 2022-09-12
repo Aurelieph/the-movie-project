@@ -17,7 +17,12 @@ const Thumbnail = ({
   return (
     <Wrapper>
       {editMode && (
-        <DeleteButton onClick={() => handleDeleteFromWatchlist(movie.id)}>
+        <DeleteButton
+          onClick={(e) => {
+            // e.preventDefault();
+            handleDeleteFromWatchlist(movie.id);
+          }}
+        >
           X
         </DeleteButton>
       )}

@@ -3,6 +3,7 @@ import "@reach/dialog/styles.css";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import MovieDetails from "./MovieDetails";
+import PopupRecommendation from "./PopupRecommendation";
 import WatchListsModule from "./PopupWatchListsModule";
 
 const Popup = ({
@@ -54,6 +55,7 @@ const Popup = ({
             />
           )}
           <WatchListsModule selectedPopupItem={selectedPopupItem} />
+          <PopupRecommendation selectedPopupItem={selectedPopupItem} />
         </div>
         <CloseButton onClick={close}>X</CloseButton>
       </Wrapper>

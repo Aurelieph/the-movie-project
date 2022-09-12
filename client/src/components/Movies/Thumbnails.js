@@ -56,8 +56,8 @@ const Thumbnails = ({
       <BackwardButton onClick={handleBackward}>{"<"}</BackwardButton>
       {thumbnailsArray.map((thumbnail) => {
         return (
-          <div key={`key-${thumbnail.id}`}>
-            <Thumbnail
+
+            <Thumbnail key={`key-${thumbnail.id}`}
               movie={thumbnail}
               selectedPopupItem={selectedPopupItem}
               setSelectedPopupItem={setSelectedPopupItem}
@@ -65,7 +65,7 @@ const Thumbnails = ({
               editMode={editMode}
               handleDeleteFromWatchlist={handleDeleteFromWatchlist}
             />
-          </div>
+
         );
       })}
       <ForwardButton onClick={handleForward}>{">"}</ForwardButton>
@@ -77,12 +77,14 @@ export default Thumbnails;
 
 const Wrapper = styled.div`
   position: relative;
-  border-radius: 20px;
+  /* border-radius: 20px; */
   margin: auto;
   max-height: var(--thmubnails-banner-size);
   display: flex;
   justify-content: center;
   align-items: center;
+  max-width:100%;
+  /* background-color:blue; */
 `;
 const BackwardButton = styled.button`
   position: sticky;

@@ -9,30 +9,25 @@ const options = {
   useUnifiedTopology: true,
 };
 const client = new MongoClient(MONGO_URI, options);
-// https://api.themoviedb.org/3/movie/76341?api_key=<<api_key>>
-// https://api.themoviedb.org/3/movie/550?api_key=2f1690ffc497ca72ea549460bdb184cf
-
-// curl --request GET \
-//   --url 'https://api.themoviedb.org/3/movie/76341' \
-//   --header 'Authorization: Bearer <<access_token>>' \
-//   --header 'Content-Type: application/json;charset=utf-8'
-// https://api.themoviedb.org/3/movie/550?api_key=2f1690ffc497ca72ea549460bdb184cf
-
-
 const signUp = async (req, res) => {
   const data = req.body;
+  const dataUpdate={
+    ...data,
+    watchlists:[{name:"Recommendations",list:[]}]
+  }
+  console.log("dataUpdate",dataUpdate)
   try {
     await client.connect();
     const db = client.db("what2watch");
-    const isUser = await db.collection("users").findOne({ token: data.token });
+    const isUser = await db.collection("users").findOne({ token: dataUpdate.token });
     if (!isUser) {
-      const newUser = await db.collection("users").insertOne(data);
+      const newUser = await db.collection("users").insertOne(dataUpdate);
       const addedUser = await db
         .collection("users")
-        .findOne({ token: data.token });
+        .findOne({ token: dataUpdate.token });
       return res
         .status(201)
-        .json({ status: 201, message: "user added", data: addedUser });
+        .json({ status: 201, message: "user added", dataUpdate: addedUser });
     } else {
       const updateUser = await db
         .collection("users")
