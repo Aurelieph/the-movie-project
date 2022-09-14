@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import styled from 'styled-components';
 import { GlobalContext } from "../GlobalContext";
 import Header from "../Header";
 
@@ -56,6 +57,7 @@ const Friends = () => {
   return (
     <div>
       <Header />
+      <Wrapper>
       <form onSubmit={handleSendRequest}>
         <p>Enter your friend's ID:</p>
 
@@ -129,8 +131,14 @@ const Friends = () => {
         </div>
       )}
       <div>{message}</div>
+      </Wrapper>
     </div>
   );
 };
 
 export default Friends;
+
+const Wrapper = styled.div`
+display:inline-block;
+margin:auto;
+`

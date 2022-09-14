@@ -1,7 +1,7 @@
-import { useContext, useEffect, useState } from "react";
-import styled from "styled-components";
-import { GlobalContext } from "../GlobalContext";
-import Wishlist from "./Wishlist";
+import { useContext, useEffect, useState } from 'react'
+import styled from 'styled-components'
+import { GlobalContext } from '../GlobalContext'
+import Wishlist from './Wishlist'
 
 const Whishlists = ({
   setShowDialog,
@@ -10,10 +10,12 @@ const Whishlists = ({
   userInfo,
   message,
   setMessage,
+  editMode,
+  setEditMode
 }) => {
-  const { currentUser, update, setUpdate } = useContext(GlobalContext);
-  const [currentWatchListName, setCurrentWatchListName] = useState(null);
-  const [updateLocal, setUpdateLocal] = useState(false);
+  const { currentUser, update, setUpdate } = useContext(GlobalContext)
+  const [currentWatchListName, setCurrentWatchListName] = useState(null)
+  const [updateLocal, setUpdateLocal] = useState(false)
 
   //   useEffect(()=>{
   //     if(userInfo?.watchlists){
@@ -29,37 +31,37 @@ const Whishlists = ({
   //   e.preventDefault();
   //   setCurrentWatchListName(e.target.value)
   // }
-  const handleCreation = async (e) => {
-    e.preventDefault();
+  const handleCreation = async e => {
+    e.preventDefault()
     const data = {
       name: e.target.watchlist.value,
-      myId: userInfo._id,
-    };
-    await fetch("/new-watchlist", {
-      method: "PATCH",
+      myId: userInfo._id
+    }
+    await fetch('/new-watchlist', {
+      method: 'PATCH',
       headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(data)
     })
-      .then((res) => res.json())
-      .then((json) => {
-        setMessage(json.message);
-        setUpdate(!update);
+      .then(res => res.json())
+      .then(json => {
+        setMessage(json.message)
+        setUpdate(!update)
         // setUpdateLocal(!updateLocal)
       })
-      .catch((err) => console.log(err));
-  };
+      .catch(err => console.log(err))
+  }
   return (
     <div>
-      {currentUser?._id === userInfo?._id && (
+      {currentUser?._id === userInfo?._id && editMode &&(
         <form onSubmit={handleCreation}>
           <label>
             Create a watchlist
-            <input type="text" placeholder="Watchlist name" name="watchlist" />
+            <input type='text' placeholder='Watchlist name' name='watchlist' />
           </label>
-          <input type="submit" />
+          <Button type='submit' />
         </form>
       )}
       {userInfo?.watchlists && (
@@ -76,9 +78,8 @@ const Whishlists = ({
             })}
           </select>
         </form> */}
-          {userInfo?.watchlists?.map((el) => {
-            if(el.name!=="Recommendation"){
-
+          {userInfo?.watchlists?.map(el => {
+            if (el.name !== 'Recommendations') {
               return (
                 <Wishlist
                   key={`wishlist-${userInfo?._id}-${el.name}`}
@@ -89,17 +90,28 @@ const Whishlists = ({
                   setShowDialog={setShowDialog}
                   selectedPopupItem={selectedPopupItem}
                   setSelectedPopupItem={setSelectedPopupItem}
+                  editMode={editMode}
+                  setEditMode={setEditMode}
                 />
-              );
+              )
             }
           })}
         </List>
       )}
       {message && <div>{message}</div>}
     </div>
-  );
-};
+  )
+}
 
-export default Whishlists;
+export default Whishlists
 
-const List = styled.div``;
+const List = styled.div``
+const Button = styled.input`
+  cursor: pointer;
+  color: white;
+  background-color: lightgray;
+  &:hover {
+    color: lightgray;
+    background-color: white;
+  }
+`

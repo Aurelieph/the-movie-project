@@ -98,14 +98,21 @@ const Menu = styled.div`
 
 const StyledNavlink = styled(NavLink)`
   width: 200px;
-  color: inherit;
   text-decoration: none;
   padding: 5px 0;
+  color:gray;
+  font-weight:bold;
   &:hover {
-    font-size: 24px;
+    color: inherit;
+    /* font-size: 24px; */
+    border-bottom: 2px solid black;
+    &.active {
+    border-bottom: 2px solid black;
+  }
   }
   &.active {
-    border-bottom: 1px solid black;
+    color:inherit;
+    border-bottom: 1px solid gray;
   }
 `;
 const LinkSpace = styled.div`

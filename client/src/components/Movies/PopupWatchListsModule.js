@@ -39,7 +39,7 @@ const WatchListsModule = ({ selectedPopupItem }) => {
           <label htmlFor="watchlist">Add to:</label>
           <select id="watchlist" name="watchlist">
             {currentUser?.watchlists?.map((whatchlist) => {
-              if(whatchlist.name!=="Recommendation"){
+              if(whatchlist.name!=="Recommendations"){
               return (
                 <option
                   key={`myWatchListKey-${whatchlist.name}`}

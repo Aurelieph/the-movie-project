@@ -29,7 +29,7 @@ const Thumbnail = ({
       <Button onClick={handleClick}>
         <MovieImg
           alt={movie.title ? movie.title : movie.name}
-          title="Title"
+          title={movie.title ? movie.title : movie.name}
           src={`http://image.tmdb.org/t/p/w342/${movie.poster_path}`}
         />
       </Button>
@@ -47,7 +47,7 @@ const Wrapper = styled.div`
 
 const MovieImg = styled.img`
   max-height: calc(var(--thumbnails-banner-size) - 10px);
-  max-width: calc(100vw / (var(--number-thumbnails) + 1));
+  max-width: calc(80vw / (var(--number-thumbnails) + 2 ));
 `;
 const Button = styled.button`
   background: none;

@@ -70,5 +70,14 @@ input,select,button{
 
 }
 
+button{
+  cursor: pointer;
+  color: white;
+    background-color:lightgray;
+  &:hover{
+      color: lightgray;
+    background-color:white;
+    }
+}
 
 `

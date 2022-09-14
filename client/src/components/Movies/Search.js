@@ -21,7 +21,7 @@ const Search = ({ suggestions, handleSelect, text, setText, showDialog }) => {
   }, []);
 
   return (
-    <div ref={ref}>
+    <Wrapper ref={ref}>
       <StyledInput 
         type="text"
         id="input"
@@ -90,17 +90,21 @@ const Search = ({ suggestions, handleSelect, text, setText, showDialog }) => {
             })}
           </StyledUl>
         )}
-    </div>
+    </Wrapper>
   );
 };
 
 export default Search;
 
 const StyledButton = styled.button`
-  background-color: blue;
-  color: white;
+  /* background-color: blue;
+
   width: 70px;
-  border: none;
+  border: none; */
+    color: white;
+    background-color:lightgray;
+    /* padding:10px; */
+
 `;
 const StyledInput = styled.input`
   margin: 10px 10px 10px 0;
@@ -117,3 +121,7 @@ const StyledUl = styled.ul`
   z-index: 1;
   background-color: white;
 `;
+const Wrapper = styled.div`
+margin:auto;
+padding-left:50px;
+`
