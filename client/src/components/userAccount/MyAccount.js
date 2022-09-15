@@ -110,7 +110,7 @@ const MyAccount = () => {
                 key={currentUser?.watching}
                 defaultValue={currentUser?.watching}
               />
-              <button type='submit'>Validate/Update</button>
+              <Button type='submit'>Validate/Update</Button>
             </Form>
           </Wrapper>
         </>
@@ -122,6 +122,7 @@ const MyAccount = () => {
 export default MyAccount
 
 const Label = styled.label`
+margin:10px 0;
   &.firstName {
     margin-top: 20px;
   }
@@ -150,8 +151,13 @@ const Title = styled.h2`
   margin-top: 50px;
   font-size: 20px;
   color:gray;
+  /* -webkit-text-stroke: 1px yellow; */
 `
 const Wrapper = styled.div`
   margin: auto;
   width: 500px;
+`
+const Button = styled.button`
+font-size:18px;
+color:gray;
 `

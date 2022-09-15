@@ -67,17 +67,29 @@ input,select,button{
   height: 30px;
   border-radius: 5px;
   border: solid 1px lightgray;
-
+}
+/* input,button{
+  background-color:yellow;
+} */
+button{
+  border: solid 1px yellow;
+  background-color:yellow;
 }
 
 button{
   cursor: pointer;
   color: white;
-    background-color:lightgray;
   &:hover{
       color: lightgray;
     background-color:white;
     }
 }
+
+
+input:focus {
+    /* outline: none !important; */
+    outline:3px solid yellow;
+    box-shadow: 0 0 10px #719ECE;
+  }
 
 `

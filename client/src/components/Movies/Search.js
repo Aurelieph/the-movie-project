@@ -1,53 +1,53 @@
-import { useState, useEffect, useRef } from "react";
-import styled from "styled-components";
-import Suggestion from "./Suggestion";
+import { useState, useEffect, useRef } from 'react'
+import styled from 'styled-components'
+import Suggestion from './Suggestion'
 
 const Search = ({ suggestions, handleSelect, text, setText, showDialog }) => {
-  const [selectedSuggestionIndex, setSelectedSuggestionIndex] = useState(0);
-  const [activeSugg, setActiveSugg] = useState(true);
-  const ref = useRef();
+  const [selectedSuggestionIndex, setSelectedSuggestionIndex] = useState(0)
+  const [activeSugg, setActiveSugg] = useState(true)
+  const ref = useRef()
 
   useEffect(() => {
-    const handleClick = (e) => {
+    const handleClick = e => {
       if (ref && ref.current) {
-        const myRef = ref.current;
+        const myRef = ref.current
         if (!myRef.contains(e.target)) {
-          setActiveSugg(false);
+          setActiveSugg(false)
         }
       }
-    };
-    document.addEventListener("click", handleClick);
-    return (() => document.removeEventListener("click", handleClick))
-  }, []);
+    }
+    document.addEventListener('click', handleClick)
+    return () => document.removeEventListener('click', handleClick)
+  }, [])
 
   return (
     <Wrapper ref={ref}>
-      <StyledInput 
-        type="text"
-        id="input"
-        autoComplete="off"
-        placeholder="Movie / TV-Show Title"
-        onChange={(e) => {
+      <StyledInput
+        type='text'
+        id='input'
+        autoComplete='off'
+        placeholder='Movie / TV-Show Title'
+        onChange={e => {
           setActiveSugg(true)
-          setText(e.target.value);
+          setText(e.target.value)
         }}
         onClick={() => setActiveSugg(true)}
-        onKeyDown={(ev) => {
+        onKeyDown={ev => {
           switch (ev.key) {
-            case "Enter": {
-              handleSelect(suggestions[selectedSuggestionIndex]);
-              return;
+            case 'Enter': {
+              handleSelect(suggestions[selectedSuggestionIndex])
+              return
             }
-            case "ArrowUp": {
-              if (selectedSuggestionIndex <= 0) setSelectedSuggestionIndex(0);
-              else setSelectedSuggestionIndex(selectedSuggestionIndex - 1);
-              return;
+            case 'ArrowUp': {
+              if (selectedSuggestionIndex <= 0) setSelectedSuggestionIndex(0)
+              else setSelectedSuggestionIndex(selectedSuggestionIndex - 1)
+              return
             }
-            case "ArrowDown": {
+            case 'ArrowDown': {
               if (suggestions.length > selectedSuggestionIndex + 1)
-                setSelectedSuggestionIndex(selectedSuggestionIndex + 1);
-              else setSelectedSuggestionIndex(suggestions.length - 1);
-              return;
+                setSelectedSuggestionIndex(selectedSuggestionIndex + 1)
+              else setSelectedSuggestionIndex(suggestions.length - 1)
+              return
             }
           }
         }}
@@ -55,20 +55,20 @@ const Search = ({ suggestions, handleSelect, text, setText, showDialog }) => {
       />
       <StyledButton
         onClick={() => {
-          setText("");
+          setText('')
         }}
       >
-        Clear
+        CLEAR
       </StyledButton>
 
       {suggestions.length !== 0 &&
         text.length > 2 &&
         showDialog === false &&
         activeSugg && (
-          <StyledUl >
+          <StyledUl>
             {suggestions.map((suggestion, index) => {
               const isSelected =
-                selectedSuggestionIndex === index ? true : false;
+                selectedSuggestionIndex === index ? true : false
               return (
                 <Suggestion
                   key={`suggestion-${suggestion.id}`}
@@ -86,32 +86,28 @@ const Search = ({ suggestions, handleSelect, text, setText, showDialog }) => {
                       : suggestion.first_air_date
                   }
                 />
-              );
+              )
             })}
           </StyledUl>
         )}
     </Wrapper>
-  );
-};
+  )
+}
 
-export default Search;
+export default Search
 
 const StyledButton = styled.button`
-  /* background-color: blue;
-
-  width: 70px;
-  border: none; */
-    color: white;
-    background-color:lightgray;
-    /* padding:10px; */
-
-`;
+  background-color: yellow;
+  font-weight:bold;
+  color: white;
+  /* background-color:lightgray; */
+`
 const StyledInput = styled.input`
   margin: 10px 10px 10px 0;
   width: 300px;
   padding-left: 10px;
   z-index: 1;
-`;
+`
 
 const StyledUl = styled.ul`
   box-shadow: 0 4px 10px 1px lightgray;
@@ -120,8 +116,8 @@ const StyledUl = styled.ul`
   position: absolute;
   z-index: 1;
   background-color: white;
-`;
+`
 const Wrapper = styled.div`
-margin:auto;
-padding-left:50px;
+  margin: 20px auto;
+  padding-left: 50px;
 `

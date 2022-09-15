@@ -65,13 +65,13 @@ const Popup = ({
 
 const CloseButton = styled.button`
   height: fit-content;
-  background-color: var(--secondary-color);
+  /* background-color: yellow; */
   position: absolute;
   right: 0px;
   top: 0px;
-  color: gray;
+  /* color: gray; */
   cursor: pointer;
-  border: 1px solid lightgray;
+  /* border: 1px solid lightgray; */
   text-align: center;
   padding: 2px 5px;
   &:hover {
@@ -89,5 +89,11 @@ const StyledDialog = styled(Dialog)`
   z-index: 20;
   margin: 20px auto;
 `;
+
+const Title = styled.h3`
+  border-top: 1px solid lightgray;
+  margin: 10px 0;
+  padding: 10px 0 5px 0;
+`
 
 export default Popup;

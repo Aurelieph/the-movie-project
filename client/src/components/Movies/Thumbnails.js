@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
-import styled from "styled-components";
-import { NUMBER_THUMBNAILS } from "../../Constants";
-import Thumbnail from "./Thumbnail";
+import { useEffect, useState } from 'react'
+import styled from 'styled-components'
+import { NUMBER_THUMBNAILS } from '../../Constants'
+import Thumbnail from './Thumbnail'
 
 const Thumbnails = ({
   moviesArray,
@@ -9,71 +9,70 @@ const Thumbnails = ({
   setSelectedPopupItem,
   setShowDialog,
   editMode,
-  handleDeleteFromWatchlist,
+  handleDeleteFromWatchlist
 }) => {
-  const [thumbnailsArray, setThumbnailsArray] = useState([]);
+  const [thumbnailsArray, setThumbnailsArray] = useState([])
 
   useEffect(() => {
-    setThumbnailsArray(moviesArray.slice(0, NUMBER_THUMBNAILS));
-  }, [moviesArray]);
+    setThumbnailsArray(moviesArray.slice(0, NUMBER_THUMBNAILS))
+  }, [moviesArray])
 
   const handleForward = () => {
-    const firstElementId = thumbnailsArray[0].id;
+    const firstElementId = thumbnailsArray[0].id
     const lastElementPosition = moviesArray
-      .map((el) => el.id)
+      .map(el => el.id)
       .indexOf(
         thumbnailsArray[Math.min(NUMBER_THUMBNAILS, moviesArray.length) - 1].id
-      );
+      )
     if (lastElementPosition < moviesArray.length - 1) {
-      setThumbnailsArray((prevArray) =>
-        prevArray.filter((movie) => movie.id !== firstElementId)
-      );
-      setThumbnailsArray((prevArray) => [
+      setThumbnailsArray(prevArray =>
+        prevArray.filter(movie => movie.id !== firstElementId)
+      )
+      setThumbnailsArray(prevArray => [
         ...prevArray,
-        moviesArray[lastElementPosition + 1],
-      ]);
+        moviesArray[lastElementPosition + 1]
+      ])
     }
-  };
+  }
   const handleBackward = () => {
     const lastElementId =
-      thumbnailsArray[Math.min(NUMBER_THUMBNAILS, moviesArray.length) - 1].id;
+      thumbnailsArray[Math.min(NUMBER_THUMBNAILS, moviesArray.length) - 1].id
     const firstElementPosition = moviesArray
-      .map((el) => el.id)
-      .indexOf(thumbnailsArray[0].id);
+      .map(el => el.id)
+      .indexOf(thumbnailsArray[0].id)
     if (firstElementPosition > 0) {
-      setThumbnailsArray((prevArray) =>
-        prevArray.filter((movie) => movie.id !== lastElementId)
-      );
-      setThumbnailsArray((prevArray) => [
+      setThumbnailsArray(prevArray =>
+        prevArray.filter(movie => movie.id !== lastElementId)
+      )
+      setThumbnailsArray(prevArray => [
         moviesArray[firstElementPosition - 1],
-        ...prevArray,
-      ]);
+        ...prevArray
+      ])
     }
-  };
+  }
 
   return (
     <Wrapper>
-      <BackwardButton onClick={handleBackward}>{"<"}</BackwardButton>
-      {thumbnailsArray.map((thumbnail) => {
+      <BackwardButton onClick={handleBackward}>{'<'}</BackwardButton>
+      {thumbnailsArray.map(thumbnail => {
         return (
-
-            <Thumbnail key={`key-${thumbnail.id}`}
-              movie={thumbnail}
-              selectedPopupItem={selectedPopupItem}
-              setSelectedPopupItem={setSelectedPopupItem}
-              setShowDialog={setShowDialog}
-              editMode={editMode}
-              handleDeleteFromWatchlist={handleDeleteFromWatchlist}
-            />
-
-        );
+          <Thumbnail
+            key={`key-${thumbnail.id}`}
+            movie={thumbnail}
+            selectedPopupItem={selectedPopupItem}
+            setSelectedPopupItem={setSelectedPopupItem}
+            setShowDialog={setShowDialog}
+            editMode={editMode}
+            handleDeleteFromWatchlist={handleDeleteFromWatchlist}
+          />
+        )
       })}
-      <ForwardButton onClick={handleForward}>{">"}</ForwardButton>
+      <ForwardButton className='yellow' onClick={handleForward}>{'>'}</ForwardButton>
     </Wrapper>
-  );
-};
+  )
+}
 
-export default Thumbnails;
+export default Thumbnails
 
 const Wrapper = styled.div`
   position: relative;
@@ -83,14 +82,19 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  max-width:100%;
+  max-width: 100%;
   /* background-color:blue; */
-`;
+`
 const BackwardButton = styled.button`
   position: sticky;
   left: 0;
-`;
+  font-weight: bold;
+  font-size:18px;
+`
 const ForwardButton = styled.button`
   position: sticky;
   right: 0;
-`;
+  font-weight: bold;
+  font-size:18px;
+
+`

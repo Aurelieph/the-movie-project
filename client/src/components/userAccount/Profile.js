@@ -215,6 +215,7 @@ const ProfileInfo = styled.div`
   align-items: center;
   /* margin: calc(var(--profile-image-size) / -2) 0 0 50px; */
   width: var(--profile-image-size);
+  color:gray;
 
 `
 const Strip = styled.div`
@@ -233,7 +234,7 @@ const Pseudo = styled.div`
 `
 const MovieName = styled.div`
   font-size: 24px;
-  margin: 20px 0 10px;
+  margin: 10px 0 10px;
   z-index: inherit;
 `
 const ProviderName = styled.div`

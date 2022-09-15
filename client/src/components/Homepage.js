@@ -74,7 +74,7 @@ const Wrapper = styled.div`
   margin: 0;
   z-index: 1;
   top: 0px;
-  background-color: darkgray;
+  background-color: white;
 `;
 const FirstImage = styled.img`
   width: 100%;

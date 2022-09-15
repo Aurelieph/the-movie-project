@@ -9,9 +9,10 @@ const Header = () => {
   const { currentUser } = useContext(GlobalContext);
   return (
     <HeaderBlock className="HeaderBlock">
-      <Title to="/">
-        <h1>WHAT2WATCH</h1>
-      </Title>
+      
+        {/* <h1 className={"yellow"}> WHAT2WATCH</h1> */}
+        <h1 > <Title to="/" className={"yellow"}>WHAT2WATCH</Title></h1>
+      
       {!isLoading && (
         <Menu>
           {isAuthenticated ? (
@@ -74,6 +75,10 @@ const HeaderBlock = styled.div`
     animation-name: opacity-in;
     animation-duration: 500ms;
     animation-fill-mode: forwards;
+    & .yellow{
+      color:yellow;
+    }
+    
   }
   display: flex;
   flex-direction: row;
@@ -84,9 +89,10 @@ const HeaderBlock = styled.div`
 
 const Title = styled(NavLink)`
   margin-left: 50px;
-  color: inherit;
+  color: yellow;
   text-decoration: none;
   font-size: 30px;
+  -webkit-text-stroke: 1px black;
 `;
 const Menu = styled.div`
   display: flex;
@@ -103,16 +109,16 @@ const StyledNavlink = styled(NavLink)`
   color:gray;
   font-weight:bold;
   &:hover {
-    color: inherit;
+    color: yellow;
     /* font-size: 24px; */
-    border-bottom: 2px solid black;
+    border-bottom: 4px solid yellow;
     &.active {
-    border-bottom: 2px solid black;
+    border-bottom: 4px solid yellow;
   }
   }
   &.active {
     color:inherit;
-    border-bottom: 1px solid gray;
+    border-bottom: 5px solid yellow;
   }
 `;
 const LinkSpace = styled.div`

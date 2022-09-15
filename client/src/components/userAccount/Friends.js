@@ -58,15 +58,17 @@ const Friends = () => {
     <div>
       <Header />
       <Wrapper>
-      <form onSubmit={handleSendRequest}>
+      <Form onSubmit={handleSendRequest}>
         <p>Enter your friend's ID:</p>
 
-        <input type="text" name="friendId" />
-        <input type="submit" />
-      </form>
+        <InputIdStyle type="text" name="friendId" />
+        <SubmitStyle type="submit" />
+      </Form>
       {receivedFriendsReq?.length > 0 && (
         <div>
+        <Title>
           Request(s) received from:
+        </Title>
           {receivedFriendsReq.map((friend) => {
             return (
               <div key={`friendSent-${friend._id}`}>
@@ -92,7 +94,10 @@ const Friends = () => {
       )}
       {sentFriendsReq?.length > 0 && (
         <div>
+          <Title>
           Request(s) sent to:
+
+          </Title>
           {sentFriendsReq.map((friend) => {
             return (
               <div key={`friendReceived-${friend._id}`}>
@@ -111,7 +116,10 @@ const Friends = () => {
       )}
       {friends?.length > 0 && (
         <div>
+          <Title>
           Friend(s):
+
+          </Title>
           {friends.map((friend) => {
             return (
               <div key={`friendReceived-${friend._id}`}>
@@ -139,6 +147,40 @@ const Friends = () => {
 export default Friends;
 
 const Wrapper = styled.div`
-display:inline-block;
-margin:auto;
+display:flex;
+margin:50px auto;
+width:500px;
+flex-direction: column;
+
+`
+const Form = styled.div`
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: center;
+	align-items: center;
+
+background-color:yellow;
+padding:20px;
+border-radius:20px;
+height:35px;
+`
+const FriendsStyle = styled.div`
+background-color:yellow;
+padding:20px;
+border-radius:20px;
+height:35px;
+`
+const SubmitStyle = styled.input`
+margin-left:20px;
+`
+const InputIdStyle = styled.input`
+margin-left:10px;
+width:200px;
+`
+
+const Title = styled.h2`
+  border-top: 1px solid lightgray;
+  margin: 10px 0;
+  padding: 10px 0 5px 0;
 `
