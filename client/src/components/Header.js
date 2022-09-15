@@ -92,7 +92,7 @@ const Title = styled(NavLink)`
   color: yellow;
   text-decoration: none;
   font-size: 30px;
-  -webkit-text-stroke: 1px black;
+  /* -webkit-text-stroke: 1px gray; */
 `;
 const Menu = styled.div`
   display: flex;

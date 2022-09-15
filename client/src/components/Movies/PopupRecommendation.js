@@ -1,69 +1,66 @@
-import { useContext, useState } from "react";
-import styled from "styled-components";
-import { GlobalContext } from "../GlobalContext";
+import { useContext, useState } from 'react'
+import styled from 'styled-components'
+import { GlobalContext } from '../GlobalContext'
+import { ButtonStyle, SelectStyle } from './PopupWatchListsModule'
 
 const PopupRecommendation = ({ selectedPopupItem }) => {
-  const { currentUser, setCurrentUser, update, setUpdate,friends } =
-    useContext(GlobalContext);
-  const [message, setMessage] = useState(null);
+  const { currentUser, setCurrentUser, update, setUpdate, friends } =
+    useContext(GlobalContext)
+  const [message, setMessage] = useState(null)
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async e => {
+    e.preventDefault()
     const data = {
       friendId: e.target.recommend.value,
       myId: currentUser._id,
       movieId: selectedPopupItem.id,
-      media_type: selectedPopupItem.media_type,
-    };
-    console.log("data-recommend",data)
-    await fetch("/send-recommendation", {
-      method: "PATCH",
+      media_type: selectedPopupItem.media_type
+    }
+    console.log('data-recommend', data)
+    await fetch('/send-recommendation', {
+      method: 'PATCH',
       headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(data)
     })
-      .then((res) => res.json())
-      .then((json) => {
-        setMessage(json.message);
+      .then(res => res.json())
+      .then(json => {
+        setMessage(json.message)
         // setUpdate(!update);
       })
-      .catch((err) => console.log(err));
-  };
+      .catch(err => console.log(err))
+  }
 
   return (
     <Wrapper>
       {currentUser && (
         <form onSubmit={handleSubmit}>
           <Title>Recommend it</Title>
-          <label htmlFor="recommend">to:</label>
-          <select id="recommend" name="recommend">
-            {friends?.map((friend) => {
+          <label htmlFor='recommend'>to:</label>
+          <SelectStyle id='recommend' name='recommend'>
+            {friends?.map(friend => {
               return (
-                <option
-                  key={`recommend-${friend._id}`}
-                  value={friend._id}
-                  
-                >
+                <option key={`recommend-${friend._id}`} value={friend._id}>
                   {`${friend.nickName}-${friend.firstName}`}
                 </option>
-              );
+              )
             })}
-          </select>
-          <input type="submit" />
+          </SelectStyle>
+          <ButtonStyle type='submit' />
         </form>
       )}
     </Wrapper>
-  );
-};
+  )
+}
 
-export default PopupRecommendation;
+export default PopupRecommendation
 
 const Wrapper = styled.div`
-margin: 20px 40px;
-padding:10px;
+  margin: 20px 40px;
+  padding: 10px;
 `
-const Title = styled.h3`
+const Title = styled.h3``
 
-`
+

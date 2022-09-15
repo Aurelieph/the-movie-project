@@ -26,13 +26,16 @@ const Wishlist = ({
     const simpleList = userInfo?.watchlists?.find(el => {
       return el.name === watchlistName
     })
+    console.log("userInfo",userInfo)
     simpleList?.list.map(el => {
       fetch(
         `https://api.themoviedb.org/3/${el.media_type}/${el.id}?api_key=2f1690ffc497ca72ea549460bdb184cf`
       )
         .then(res => res.json())
         .then(json => {
+          console.log(el)
           json.media_type = el.media_type
+          json.recommended_by= el.recommended_by
           setWatchlist(watchList => [...watchList, json])
         })
     })
@@ -115,6 +118,7 @@ const Wishlist = ({
         setShowDialog={setShowDialog}
         editMode={editMode}
         handleDeleteFromWatchlist={handleDeleteFromWatchlist}
+        watchlistName={watchlistName}
       />
     </Wrapper>
   )

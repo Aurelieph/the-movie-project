@@ -1,4 +1,6 @@
+import { useEffect, useState } from 'react';
 import styled from "styled-components";
+import star from '../images/star.png'
 
 const Thumbnail = ({
   movie,
@@ -7,12 +9,29 @@ const Thumbnail = ({
   setShowDialog,
   editMode,
   handleDeleteFromWatchlist,
+  watchlistName
 }) => {
   const handleClick = (e) => {
     e.preventDefault();
     setSelectedPopupItem(movie);
     setShowDialog(true);
   };
+
+  const [friendName, setFriendName] =useState(null)
+
+  useEffect(()=>{
+    if(watchlistName==="Recommendations"){
+      fetch(`/user-id/${movie.recommended_by}`)
+      .then(res => res.json())
+      .then(json => {
+        setFriendName(json.data.nickName)
+        // console.log(movie)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    }
+  },[])
 
   return (
     <Wrapper>
@@ -33,7 +52,8 @@ const Thumbnail = ({
           src={`http://image.tmdb.org/t/p/w342/${movie.poster_path}`}
         />
       </Button>
-    </Wrapper>
+      {watchlistName==="Recommendations"?<ImgStyle src={star} title={`by: ${friendName}`}/>:""
+    }    </Wrapper>
   );
 };
 
@@ -67,4 +87,9 @@ const DeleteButton = styled.button`
   left: calc(100% - 25px);
   margin-top: -20px;
   cursor: pointer;
+`;
+const ImgStyle = styled.img`
+position:absolute;
+left: calc(100% - 20px);
+height:20px;
 `;

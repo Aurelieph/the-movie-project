@@ -41,6 +41,7 @@ const Profile = () => {
       .then(json => {
         if (json.status === 200) {
           setUserInfo(json.data)
+          console.log('json.data', json.data)
         } else {
           console.log(json.message)
         }
@@ -113,13 +114,15 @@ const Profile = () => {
       <Banner>
         <BannerImg src={bridesmaid2} />
       </Banner>
-          <Strip/>
+      <Strip />
       <Wrapper>
         <ProfileInfo>
-
           <ProfilePicture />
-          <Pseudo>{userInfo?.nickName} </Pseudo>is watching{' '}
-          <MovieName> {userInfo?.watching} </MovieName>
+          <Pseudo>{userInfo?.nickName} </Pseudo>
+          <MovieName>
+            <p>is watching</p>
+            {userInfo?.watching}{' '}
+          </MovieName>
         </ProfileInfo>
         <ProfileBody className='profile-body'></ProfileBody>
         <Search
@@ -136,7 +139,7 @@ const Profile = () => {
           {currentUser?._id === userInfo?._id && (
             <EditButton
               onClick={() => toggleEditMode(setEditModeRec, editModeRec)}
-              className={editModeRec ? "activeMode" : ""}
+              className={editModeRec ? 'activeMode' : ''}
             >
               {editModeRec ? 'done' : 'edit'}
             </EditButton>
@@ -161,7 +164,7 @@ const Profile = () => {
           {currentUser?._id === userInfo?._id && (
             <EditButton
               onClick={() => toggleEditMode(setEditModeLists, editModeLists)}
-            className={editModeLists ? "activeMode" : ""}
+              className={editModeLists ? 'activeMode' : ''}
             >
               {editModeLists ? 'done' : 'edit'}
             </EditButton>
@@ -192,7 +195,6 @@ const Wrapper = styled.div`
   margin: auto;
 `
 
-
 const Banner = styled.div`
   width: 100%;
   z-index: -1;
@@ -208,34 +210,42 @@ const BannerImg = styled.img`
 `
 
 const ProfileInfo = styled.div`
-  /* position: static; */
   margin: calc(var(--profile-image-size) / -2) auto 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* margin: calc(var(--profile-image-size) / -2) 0 0 50px; */
-  width: var(--profile-image-size);
-  color:gray;
-
+  /* width: var(--profile-image-size); */
+  color: gray;
 `
 const Strip = styled.div`
   position: absolute;
-height:220px;
-width:100%;
-background-color:yellow;
-/* background-color:rgb(48,52,67); */
-z-index:-1;
+  height: 220px;
+  width: 100%;
+  background-color: yellow;
+  /* background-color:rgb(48,52,67); */
+  z-index: -1;
 `
 const Pseudo = styled.div`
   font-size: 32px;
   margin: 10px 0;
   z-index: inherit;
-  
+  font-weight: bold;
 `
-const MovieName = styled.div`
+const MovieName = styled.span`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+  align-content: stretch;
+
   font-size: 24px;
   margin: 10px 0 10px;
   z-index: inherit;
+  p {
+    font-size: 18px;
+    margin-right:20px;
+  }
 `
 const ProviderName = styled.div`
   z-index: inherit;
@@ -277,8 +287,8 @@ const EditButton = styled.button`
   text-decoration: underline;
   border: none;
   font-style: italic;
-  &.activeMode{
-    color:green;
-    font-weight:bold;
+  &.activeMode {
+    color: green;
+    font-weight: bold;
   }
 `

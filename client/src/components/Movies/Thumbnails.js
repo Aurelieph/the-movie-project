@@ -9,7 +9,8 @@ const Thumbnails = ({
   setSelectedPopupItem,
   setShowDialog,
   editMode,
-  handleDeleteFromWatchlist
+  handleDeleteFromWatchlist,
+  watchlistName,
 }) => {
   const [thumbnailsArray, setThumbnailsArray] = useState([])
 
@@ -64,6 +65,7 @@ const Thumbnails = ({
             setShowDialog={setShowDialog}
             editMode={editMode}
             handleDeleteFromWatchlist={handleDeleteFromWatchlist}
+            watchlistName={watchlistName}
           />
         )
       })}

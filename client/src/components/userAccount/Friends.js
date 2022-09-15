@@ -157,13 +157,14 @@ const Form = styled.div`
 	display: flex;
 	flex-direction: row;
 	flex-wrap: nowrap;
-	justify-content: center;
-	align-items: center;
+  justify-content: space-between;	
+  align-items: center;
 
 background-color:yellow;
 padding:20px;
 border-radius:20px;
 height:35px;
+margin:-20px -20px 0 -20px;
 `
 const FriendsStyle = styled.div`
 background-color:yellow;

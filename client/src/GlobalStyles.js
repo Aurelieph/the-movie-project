@@ -74,9 +74,6 @@ input,select,button{
 button{
   border: solid 1px yellow;
   background-color:yellow;
-}
-
-button{
   cursor: pointer;
   color: white;
   &:hover{
@@ -87,7 +84,6 @@ button{
 
 
 input:focus {
-    /* outline: none !important; */
     outline:3px solid yellow;
     box-shadow: 0 0 10px #719ECE;
   }
