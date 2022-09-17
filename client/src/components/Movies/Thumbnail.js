@@ -30,7 +30,7 @@ const Thumbnail = ({
         console.log(err)
       })
     }
-  },[])
+  },[movie.recommended_by,watchlistName])
 
   return (
     <Wrapper>

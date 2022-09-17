@@ -49,6 +49,8 @@ const Search = ({ suggestions, handleSelect, text, setText, showDialog }) => {
               else setSelectedSuggestionIndex(suggestions.length - 1)
               return
             }
+            default:
+              console.log('error')
           }
         }}
         value={text}
@@ -98,7 +100,7 @@ export default Search
 
 const StyledButton = styled.button`
   background-color: yellow;
-  font-weight:bold;
+  font-weight: bold;
   color: white;
 `
 const StyledInput = styled.input`

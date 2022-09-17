@@ -1,12 +1,11 @@
-import { useContext, useState } from 'react'
+import { useContext } from 'react'
 import styled from 'styled-components'
 import { GlobalContext } from '../GlobalContext'
 import { ButtonStyle, SelectStyle } from './PopupWatchListsModule'
 
 const PopupRecommendation = ({ selectedPopupItem }) => {
-  const { currentUser, setCurrentUser, update, setUpdate, friends } =
+  const { currentUser, update, setUpdate, friends } =
     useContext(GlobalContext)
-  const [message, setMessage] = useState(null)
 
   const handleSubmit = async e => {
     e.preventDefault()
@@ -26,7 +25,6 @@ const PopupRecommendation = ({ selectedPopupItem }) => {
     })
       .then(res => res.json())
       .then(json => {
-        setMessage(json.message)
         setUpdate(!update)
       })
       .catch(err => console.log(err))

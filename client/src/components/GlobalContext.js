@@ -1,7 +1,5 @@
 import { useAuth0 } from '@auth0/auth0-react'
 import { createContext, useEffect, useState } from 'react'
-import { themes } from '../Constants'
-
 export const GlobalContext = createContext(null)
 
 export const GlobalProvider = ({ children }) => {
