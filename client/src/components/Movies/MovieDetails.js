@@ -43,12 +43,10 @@ const DescriptionArea = styled.div`
   text-align: left;
   margin-left: 40px;
   border-radius: 5px;
-  /* width: 40%; */
   padding: 10px;
 `;
 const ItemId = styled.div`
   font-size: 10px;
-  /* padding: 10px; */
   margin: 20px 0 10px 0;
 `;
 const Title = styled.div`

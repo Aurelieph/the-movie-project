@@ -153,7 +153,7 @@ width:500px;
 flex-direction: column;
 
 `
-const Form = styled.div`
+const Form = styled.form`
 	display: flex;
 	flex-direction: row;
 	flex-wrap: nowrap;

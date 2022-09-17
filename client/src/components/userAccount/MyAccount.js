@@ -116,11 +116,11 @@ const MyAccount = () => {
               />
 
               <Label htmlFor='theme'>Theme</Label>
-              {currentUser ? (
+              
                 <SelectStyle
                   id='theme'
                   name='theme'
-                  defaultValue={currentUser.theme}
+                  defaultValue={currentUser?.theme}
                 >
                   {themes.map(theme => {
                     return (
@@ -130,9 +130,7 @@ const MyAccount = () => {
                     )
                   })}
                 </SelectStyle>
-              ) : (
-                ''
-              )}
+              
               <Button type='submit'>Validate/Update</Button>
             </Form>
           </Wrapper>

@@ -52,18 +52,28 @@ const Homepage = () => {
       {!showDialog ? <Header /> : <PlaceHolder />}
 
       <FirstImage src={deadpool} />
+      <div>
+<Label>
+Top 20 Movies
+  </Label>
       <Thumbnails
         moviesArray={top20MovieWeek}
         selectedPopupItem={selectedPopupItem}
         setSelectedPopupItem={setSelectedPopupItem}
         setShowDialog={setShowDialog}
-      />
+        />
+        </div>
+        <div>
+        <Label>
+Top 20 TV shows
+  </Label>
       <Thumbnails
         moviesArray={top20TvWeek}
         selectedPopupItem={selectedPopupItem}
         setSelectedPopupItem={setSelectedPopupItem}
         setShowDialog={setShowDialog}
-      />
+        />
+        </div>
     </Wrapper>
   );
 };
@@ -84,4 +94,15 @@ const FirstImage = styled.img`
 `;
 export const PlaceHolder = styled.div`
   height: var(--header-height);
+`;
+export const Label = styled.div`
+  position:absolute;
+  z-index:1;
+  margin-left:20px;
+  margin-top:20px;
+  background-color: yellow;
+  font-weight:bold;
+  padding:5px;
+  border-radius:10px;
+  color:gray;
 `;

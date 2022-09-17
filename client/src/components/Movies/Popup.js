@@ -65,13 +65,10 @@ const Popup = ({
 
 const CloseButton = styled.button`
   height: fit-content;
-  /* background-color: yellow; */
   position: absolute;
   right: 0px;
   top: 0px;
-  /* color: gray; */
   cursor: pointer;
-  /* border: 1px solid lightgray; */
   text-align: center;
   padding: 2px 5px;
   &:hover {
