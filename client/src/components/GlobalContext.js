@@ -1,69 +1,77 @@
-import { useAuth0 } from "@auth0/auth0-react";
-import { createContext, useEffect, useState } from "react";
+import { useAuth0 } from '@auth0/auth0-react'
+import { createContext, useEffect, useState } from 'react'
+import { themes } from '../Constants'
 
-export const GlobalContext = createContext(null);
+export const GlobalContext = createContext(null)
 
 export const GlobalProvider = ({ children }) => {
-  const [currentUser, setCurrentUser] = useState(null);
-  const { user } = useAuth0();
-  const [update, setUpdate] = useState(false);
-  const [sentFriendsReq, setSentFriendsReq] = useState([]);
-  const [receivedFriendsReq, setReceivedFriendsReq] = useState([]);
-  const [friends, setFriends] = useState([]);
+  const [currentUser, setCurrentUser] = useState(null)
+  const { user } = useAuth0()
+  const [update, setUpdate] = useState(false)
+  const [sentFriendsReq, setSentFriendsReq] = useState([])
+  const [receivedFriendsReq, setReceivedFriendsReq] = useState([])
+  const [friends, setFriends] = useState([])
 
   useEffect(() => {
-    setSentFriendsReq([]);
-    currentUser?.friendRequestSent?.map((el) => {
+    setSentFriendsReq([])
+    currentUser?.friendRequestSent?.map(el => {
       fetch(`/user-id/${el.id}`)
-        .then((res) => res.json())
-        .then((json) => {
-          json.data.date = el.date;
-          setSentFriendsReq((sentFriendsReq) => [...sentFriendsReq, json.data]);
-        });
-    });
-    setReceivedFriendsReq([]);
-    currentUser?.friendRequestReceived?.map((el) => {
+        .then(res => res.json())
+        .then(json => {
+          json.data.date = el.date
+          setSentFriendsReq(sentFriendsReq => [...sentFriendsReq, json.data])
+        })
+    })
+    setReceivedFriendsReq([])
+    currentUser?.friendRequestReceived?.map(el => {
       fetch(`/user-id/${el.id}`)
-        .then((res) => res.json())
-        .then((json) => {
-          json.data.date = el.date;
-          setReceivedFriendsReq((receivedFriendsReq) => [
+        .then(res => res.json())
+        .then(json => {
+          json.data.date = el.date
+          setReceivedFriendsReq(receivedFriendsReq => [
             ...receivedFriendsReq,
-            json.data,
-          ]);
-        });
-    });
-    setFriends([]);
-    currentUser?.friends?.map((el) => {
+            json.data
+          ])
+        })
+    })
+    setFriends([])
+    currentUser?.friends?.map(el => {
       fetch(`/user-id/${el.id}`)
-        .then((res) => res.json())
-        .then((json) => {
-          json.data.date = el.date;
-          setFriends((friends) => [...friends, json.data]);
-        });
-    });
-  }, [currentUser]);
+        .then(res => res.json())
+        .then(json => {
+          json.data.date = el.date
+          setFriends(friends => [...friends, json.data])
+        })
+    })
+  }, [currentUser])
   useEffect(() => {
     if (user) {
       fetch(`/user/${user.sub}`)
-        .then((res) => res.json())
-        .then((json) => {
+        .then(res => res.json())
+        .then(json => {
           if (json.status === 200) {
-            setCurrentUser(json.data);
-          } else {
-            console.log(json.message);
+            setCurrentUser(json.data)
           }
         })
-        .catch((err) => {
-          console.log(err);
-        });
+        .catch(err => {
+          console.log(err)
+        })
     }
-  }, [user, update]);
+  }, [user, update])
+
   return (
     <GlobalContext.Provider
-      value={{ currentUser, setCurrentUser, setUpdate, update,sentFriendsReq,receivedFriendsReq,friends }}
+      value={{
+        currentUser,
+        setCurrentUser,
+        setUpdate,
+        update,
+        sentFriendsReq,
+        receivedFriendsReq,
+        friends
+      }}
     >
       {children}
     </GlobalContext.Provider>
-  );
-};
+  )
+}

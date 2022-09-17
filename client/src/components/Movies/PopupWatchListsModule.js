@@ -11,7 +11,7 @@ const WatchListsModule = ({ selectedPopupItem }) => {
     e.preventDefault()
     const data = {
       name: e.target.watchlist.value,
-      myId: currentUser._id,
+      myId: currentUser?._id,
       movieId: selectedPopupItem.id,
       media_type: selectedPopupItem.media_type
     }

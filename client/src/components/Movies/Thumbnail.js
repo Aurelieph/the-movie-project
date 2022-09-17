@@ -25,7 +25,6 @@ const Thumbnail = ({
       .then(res => res.json())
       .then(json => {
         setFriendName(json.data.nickName)
-        // console.log(movie)
       })
       .catch(err => {
         console.log(err)
@@ -37,8 +36,7 @@ const Thumbnail = ({
     <Wrapper>
       {editMode && (
         <DeleteButton
-          onClick={(e) => {
-            // e.preventDefault();
+          onClick={() => {
             handleDeleteFromWatchlist(movie.id);
           }}
         >
@@ -90,6 +88,6 @@ const DeleteButton = styled.button`
 `;
 const ImgStyle = styled.img`
 position:absolute;
-left: calc(100% - 20px);
+right: calc(100% - 20px);
 height:20px;
 `;

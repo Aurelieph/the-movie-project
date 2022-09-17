@@ -15,7 +15,6 @@ const signUp = async (req, res) => {
     ...data,
     watchlists:[{name:"Recommendations",list:[]}]
   }
-  console.log("dataUpdate",dataUpdate)
   try {
     await client.connect();
     const db = client.db("what2watch");

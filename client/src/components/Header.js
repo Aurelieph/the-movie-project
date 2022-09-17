@@ -9,10 +9,7 @@ const Header = () => {
   const { currentUser } = useContext(GlobalContext);
   return (
     <HeaderBlock className="HeaderBlock">
-      
-        {/* <h1 className={"yellow"}> WHAT2WATCH</h1> */}
-        <h1 > <Title to="/" className={"yellow"}>WHAT2WATCH</Title></h1>
-      
+        <h1 > <Title to="/" >WHAT2WATCH</Title></h1>
       {!isLoading && (
         <Menu>
           {isAuthenticated ? (
@@ -92,7 +89,7 @@ const Title = styled(NavLink)`
   color: yellow;
   text-decoration: none;
   font-size: 30px;
-  /* -webkit-text-stroke: 1px gray; */
+  text-shadow: 2px 1px 6px gray;
 `;
 const Menu = styled.div`
   display: flex;
@@ -110,7 +107,6 @@ const StyledNavlink = styled(NavLink)`
   font-weight:bold;
   &:hover {
     color: yellow;
-    /* font-size: 24px; */
     border-bottom: 4px solid yellow;
     &.active {
     border-bottom: 4px solid yellow;

@@ -4,21 +4,24 @@ import { useNavigate } from 'react-router-dom'
 import { GlobalContext } from '../GlobalContext'
 import styled from 'styled-components'
 import Header from '../Header'
+import { themes } from '../../Constants'
 const MyAccount = () => {
-  const { user, isAuthenticated, isLoading } = useAuth0()
+  const { user, isAuthenticated } = useAuth0()
   const { currentUser, setCurrentUser } = useContext(GlobalContext)
   let navigate = useNavigate()
 
   const handleSignUp = async e => {
     e.preventDefault()
-    const { firstName, lastName, nickName, email, watching } = e.target.elements
+    const { firstName, lastName, nickName, email, watching, theme } =
+      e.target.elements
     const data = {
       firstName: firstName?.value,
       lastName: lastName?.value,
       email: email?.value,
       nickName: nickName?.value,
       token: user.sub,
-      watching: watching?.value
+      watching: watching?.value,
+      theme: theme?.value
     }
     await fetch('/signup/', {
       method: 'POST',
@@ -48,6 +51,7 @@ const MyAccount = () => {
           </Wrapper>
           <Wrapper>
             <Form onSubmit={handleSignUp}>
+              <Id>id: {currentUser?._id}</Id>
               <Label htmlFor='nickName'> Username</Label>
               <Input
                 id='nickName'
@@ -110,6 +114,25 @@ const MyAccount = () => {
                 key={currentUser?.watching}
                 defaultValue={currentUser?.watching}
               />
+
+              <Label htmlFor='theme'>Theme</Label>
+              {currentUser ? (
+                <SelectStyle
+                  id='theme'
+                  name='theme'
+                  defaultValue={currentUser.theme}
+                >
+                  {themes.map(theme => {
+                    return (
+                      <option key={`myTheme-${theme.name}`} value={theme.name}>
+                        {theme.name}
+                      </option>
+                    )
+                  })}
+                </SelectStyle>
+              ) : (
+                ''
+              )}
               <Button type='submit'>Validate/Update</Button>
             </Form>
           </Wrapper>
@@ -122,7 +145,7 @@ const MyAccount = () => {
 export default MyAccount
 
 const Label = styled.label`
-margin:10px 0;
+  margin: 10px 0;
   &.firstName {
     margin-top: 20px;
   }
@@ -134,30 +157,38 @@ const Input = styled.input`
   margin-bottom: 5px;
 `
 const Form = styled.form`
-  /* background-color: rgb(var(--primary-color)); */
-  border:2px solid rgb(var(--primary-color));
-  border-radius:20px;
+  border: 2px solid rgb(var(--primary-color));
+  border-radius: 20px;
   width: 100%;
   margin: auto;
   margin-top: 20px;
   display: flex;
   flex-direction: column;
   padding: 20px;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -40px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -40px,
+    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
+    rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
 `
 const Title = styled.h2`
   width: 400px;
-  /* margin: auto; */
   margin-top: 50px;
   font-size: 20px;
-  color:gray;
-  /* -webkit-text-stroke: 1px yellow; */
+  color: gray;
 `
 const Wrapper = styled.div`
   margin: auto;
   width: 500px;
 `
 const Button = styled.button`
-font-size:18px;
-color:gray;
+  font-size: 18px;
+  color: gray;
+`
+const Id = styled.div`
+  font-size: 14px;
+`
+
+export const SelectStyle = styled.select`
+  margin-bottom: 10px;
+  border: solid 1px yellow;
+  cursor: pointer;
 `

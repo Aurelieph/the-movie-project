@@ -1,199 +1,187 @@
-const { MongoClient, ObjectId, ReadConcern } = require("mongodb");
-require("dotenv").config();
+const { MongoClient, ObjectId, ReadConcern } = require('mongodb')
+require('dotenv').config()
 
-const { MONGO_URI } = process.env;
+const { MONGO_URI } = process.env
 const options = {
   useNewUrlParser: true,
-  useUnifiedTopology: true,
-};
-const client = new MongoClient(MONGO_URI, options);
+  useUnifiedTopology: true
+}
+const client = new MongoClient(MONGO_URI, options)
 
 const createNewWatchlist = async (req, res) => {
-  const data = req.body;
+  const data = req.body
   try {
-    await client.connect();
-    const db = client.db("what2watch");
-    const check = await db.collection("users").findOne({
+    await client.connect()
+    const db = client.db('what2watch')
+    const check = await db.collection('users').findOne({
       _id: ObjectId(data.myId),
-      watchlists: { $elemMatch: { name: data.name } },
-    });
+      watchlists: { $elemMatch: { name: data.name } }
+    })
 
     if (check) {
       return res
         .status(202)
-        .json({ status: 202, message: "watchlist name already exists" });
+        .json({ status: 202, message: 'watchlist name already exists' })
     } else {
-      await db.collection("users").updateOne(
+      await db.collection('users').updateOne(
         { _id: ObjectId(data.myId) },
         {
           $push: {
-            watchlists: { name: data.name, list: [] },
-          },
+            watchlists: { name: data.name, list: [] }
+          }
         }
-      );
+      )
       return res.status(200).json({
         status: 200,
-        message: `watchlist '${data.name}' has been successfully created`,
-      });
+        message: `watchlist '${data.name}' has been successfully created`
+      })
     }
   } catch (error) {
-    console.log(error);
-    res.status(500).json({ status: 500, message: "Something went wrong" });
+    console.log(error)
+    res.status(500).json({ status: 500, message: 'Something went wrong' })
   }
-};
+}
 
 const deleteWatchList = async (req, res) => {
-  const data = req.body;
+  const data = req.body
   try {
-    await client.connect();
-    const db = await client.db("what2watch");
+    await client.connect()
+    const db = await client.db('what2watch')
     const statusDeleteWatchList = await db
-      .collection("users")
+      .collection('users')
       .updateOne(
         { _id: ObjectId(data.myId) },
         { $pull: { watchlists: { name: data.name } } }
-      );
+      )
     return res.status(200).json({
       status: 200,
-      message: "Successfully deleted",
-    });
+      message: 'Successfully deleted'
+    })
   } catch (error) {
-    res.status(500).json({ status: 500, message: "Something went wrong" });
+    res.status(500).json({ status: 500, message: 'Something went wrong' })
   }
-};
+}
 const addToWatchList = async (req, res) => {
-  const data = req.body;
+  const data = req.body
   try {
-    await client.connect();
-    const db = client.db("what2watch");
-    await db.collection("users").updateOne(
+    await client.connect()
+    const db = client.db('what2watch')
+    await db.collection('users').updateOne(
       {
         _id: ObjectId(data.myId),
-        watchlists: { $elemMatch: { name: data.name } },
+        watchlists: { $elemMatch: { name: data.name } }
       },
       {
         $addToSet: {
-          "watchlists.$.list": {
+          'watchlists.$.list': {
             id: data.movieId,
-            media_type: data.media_type,
-          },
-        },
+            media_type: data.media_type
+          }
+        }
       }
-    );
+    )
     return res.status(200).json({
       status: 200,
-      message: `movie was sucessfully added to your watchlist`,
-    });
-    // }
+      message: `movie was sucessfully added to your watchlist`
+    })
   } catch (error) {
-    console.log(error);
-    res.status(500).json({ status: 500, message: "Something went wrong" });
+    console.log(error)
+    res.status(500).json({ status: 500, message: 'Something went wrong' })
   }
-};
+}
 const removeFromWatchList = async (req, res) => {
-  const data = req.body;
+  const data = req.body
   try {
-    await client.connect();
-    const db = client.db("what2watch");
-    const update = await db.collection("users").updateOne(
+    await client.connect()
+    const db = client.db('what2watch')
+    const update = await db.collection('users').updateOne(
       {
         _id: ObjectId(data.myId),
-        watchlists: { $elemMatch: { name: data.name } },
+        watchlists: { $elemMatch: { name: data.name } }
       },
       {
         $pull: {
-          // "watchlists.$.list":{id:data.movieId,media_type:data.media_type}
-          "watchlists.$.list": { id: data.movieId },
-        },
+          'watchlists.$.list': { id: data.movieId }
+        }
       }
-    );
+    )
     if (update.modifiedCount === 0) {
       return res.status(200).json({
         status: 200,
-        message: `movie not removed from watchlist`,
-      });
+        message: `movie not removed from watchlist`
+      })
     }
     return res.status(200).json({
       status: 200,
-      message: `movie was sucessfully removed from the watchlist`,
-    });
-    // }
+      message: `movie was sucessfully removed from the watchlist`
+    })
   } catch (error) {
-    console.log(error);
-    res.status(500).json({ status: 500, message: "Something went wrong" });
+    console.log(error)
+    res.status(500).json({ status: 500, message: 'Something went wrong' })
   }
-};
+}
 const sendRecommendation = async (req, res) => {
-  const data = req.body;
+  const data = req.body
   try {
-    await client.connect();
-    const db = client.db("what2watch");
-    // await db.collection("users").updateOne(
-    //   {
-    //     _id: ObjectId(data.myId),
-    //     watchlists: { $elemMatch: { name: data.name } },
-    //   },
-    //   {
-    //     $addToSet: {
-    //       "watchlists.$.list": {
-    //         id: data.movieId,
-    //         media_type: data.media_type,
-    //       },
-    //     },
-    //   }
-    // );
-    const check = await db.collection("users").findOne({
+    await client.connect()
+    const db = client.db('what2watch')
+    const check = await db.collection('users').findOne({
       _id: ObjectId(data.friendId),
-      watchlists: { $elemMatch: { name: "Recommendations" } },
-    });
+      watchlists: { $elemMatch: { name: 'Recommendations' } }
+    })
 
     if (check) {
-      await db.collection("users").updateOne(
+      await db.collection('users').updateOne(
         {
           _id: ObjectId(data.friendId),
-          watchlists: { $elemMatch: { name: "Recommendations" } },
+          watchlists: { $elemMatch: { name: 'Recommendations' } }
         },
         {
           $addToSet: {
-            "watchlists.$.list": {
+            'watchlists.$.list': {
               id: data.movieId,
               media_type: data.media_type,
-              recommended_by:data.myId,
-            },
-          },
+              recommended_by: data.myId
+            }
+          }
         }
-      );
+      )
       return res
         .status(202)
-        .json({ status: 202, message: "Recommendation sent" });
+        .json({ status: 202, message: 'Recommendation sent' })
     } else {
-      await db.collection("users").updateOne(
+      await db.collection('users').updateOne(
         { _id: ObjectId(data.friendId) },
         {
           $push: {
-            watchlists: { name:"Recommendations", list: [{
-              id: data.movieId,
-              media_type: data.media_type,
-              recommended_by:data.myId,
-            }] },
-          },
+            watchlists: {
+              name: 'Recommendations',
+              list: [
+                {
+                  id: data.movieId,
+                  media_type: data.media_type,
+                  recommended_by: data.myId
+                }
+              ]
+            }
+          }
         }
-      );
+      )
       return res.status(200).json({
         status: 200,
-        message: `movie was sucessfully added to your watchlist`,
-      });
+        message: `movie was sucessfully added to your watchlist`
+      })
     }
   } catch (error) {
-    console.log(error);
-    res.status(500).json({ status: 500, message: "Something went wrong" });
+    console.log(error)
+    res.status(500).json({ status: 500, message: 'Something went wrong' })
   }
-};
+}
 
 module.exports = {
   addToWatchList,
   deleteWatchList,
   createNewWatchlist,
   removeFromWatchList,
-  sendRecommendation,
-};
+  sendRecommendation
+}

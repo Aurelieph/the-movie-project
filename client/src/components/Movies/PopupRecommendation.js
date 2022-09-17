@@ -16,7 +16,6 @@ const PopupRecommendation = ({ selectedPopupItem }) => {
       movieId: selectedPopupItem.id,
       media_type: selectedPopupItem.media_type
     }
-    console.log('data-recommend', data)
     await fetch('/send-recommendation', {
       method: 'PATCH',
       headers: {
@@ -28,7 +27,7 @@ const PopupRecommendation = ({ selectedPopupItem }) => {
       .then(res => res.json())
       .then(json => {
         setMessage(json.message)
-        // setUpdate(!update);
+        setUpdate(!update)
       })
       .catch(err => console.log(err))
   }

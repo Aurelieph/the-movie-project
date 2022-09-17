@@ -13,21 +13,7 @@ const {
   removeFromWatchList,
   sendRecommendation,
 } = require("./handlers/listsHandlers");
-// user-546872
 require("dotenv").config();
-
-// const { auth } = require("express-openid-connect");
-// require("dotenv").config();
-// const { SECRET_AUTH } = process.env;
-
-// const config = {
-//   authRequired: false,
-//   auth0Logout: true,
-//   secret: SECRET_AUTH,
-//   baseURL: "http://localhost:3000",
-//   clientID: "SuGYBIi8MIJZgS7xnscmzdPeisWeiB5v",
-//   issuerBaseURL: "https://dev-l9wkf058.us.auth0.com",
-// };
 
 express()
   .use(morgan("tiny"))

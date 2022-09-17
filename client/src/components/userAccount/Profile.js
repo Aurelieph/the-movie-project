@@ -1,8 +1,6 @@
 import { useState } from 'react'
 import styled from 'styled-components'
 import Header from '../Header'
-import bridesmaid from '../images/bridemaids.jpg'
-import bridesmaid2 from '../images/bridemaids2.jpg'
 import { useAuth0 } from '@auth0/auth0-react'
 import { useEffect } from 'react'
 import { useContext } from 'react'
@@ -13,11 +11,13 @@ import Whishlists from './Wishlists'
 import { PlaceHolder } from '../Homepage'
 import Search from '../Movies/Search'
 import Wishlist from './Wishlist'
+import { themes } from '../../Constants'
 
 const Profile = () => {
   const [searchResults, setSearchResults] = useState([])
   const { isLoading } = useAuth0()
-  const { currentUser, update } = useContext(GlobalContext)
+  const { currentUser, update} =
+    useContext(GlobalContext)
   const [userInfo, setUserInfo] = useState(null)
   const params = useParams()
   const [text, setText] = useState('')
@@ -41,10 +41,7 @@ const Profile = () => {
       .then(json => {
         if (json.status === 200) {
           setUserInfo(json.data)
-          console.log('json.data', json.data)
-        } else {
-          console.log(json.message)
-        }
+        } 
         setLoaded(true)
       })
       .catch(err => {
@@ -70,9 +67,14 @@ const Profile = () => {
     }
   }, [text])
   const toggleEditMode = (callback, state) => {
-    // e.preventDefault()
     callback(!state)
   }
+  const profileImage = themes.find(
+    theme => theme.name === userInfo?.theme
+  )?.profile
+  const bannerImage = themes.find(
+    theme => theme.name === userInfo?.theme
+  )?.banner
 
   if (isLoading) {
     return <div>Loading ...</div>
@@ -112,12 +114,12 @@ const Profile = () => {
       />
       {!showDialog ? <Header /> : <PlaceHolder />}
       <Banner>
-        <BannerImg src={bridesmaid2} />
+        <BannerImg src={bannerImage} />
       </Banner>
       <Strip />
       <Wrapper>
         <ProfileInfo>
-          <ProfilePicture />
+          <ProfilePicture style={{backgroundImage:`url(${profileImage})`}}/>
           <Pseudo>{userInfo?.nickName} </Pseudo>
           <MovieName>
             <p>is watching</p>
@@ -214,7 +216,6 @@ const ProfileInfo = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* width: var(--profile-image-size); */
   color: gray;
 `
 const Strip = styled.div`
@@ -222,7 +223,6 @@ const Strip = styled.div`
   height: 220px;
   width: 100%;
   background-color: yellow;
-  /* background-color:rgb(48,52,67); */
   z-index: -1;
 `
 const Pseudo = styled.div`
@@ -244,18 +244,14 @@ const MovieName = styled.span`
   z-index: inherit;
   p {
     font-size: 18px;
-    margin-right:20px;
+    margin-right: 20px;
   }
-`
-const ProviderName = styled.div`
-  z-index: inherit;
 `
 
 const ProfilePicture = styled.div`
   border-radius: 100%;
   width: var(--profile-image-size);
   height: var(--profile-image-size);
-  background-image: url(${bridesmaid});
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center center;
@@ -263,23 +259,14 @@ const ProfilePicture = styled.div`
     rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
   z-index: 0;
 `
-
 const ProfileBody = styled.div`
-  /* position: absolute; */
   top: var(--banner-height);
   left: calc(var(--profile-image-size) + 100px);
 `
-
-const SearchField = styled.input``
-
 const Title = styled.h2`
   border-top: 1px solid lightgray;
   margin: 10px 0;
   padding: 10px 0 5px 0;
-`
-const DeleteButton = styled.button`
-  margin-left: 10px;
-  background-color: lightcoral;
 `
 const EditButton = styled.button`
   background-color: inherit;

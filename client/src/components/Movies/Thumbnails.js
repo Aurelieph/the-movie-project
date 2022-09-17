@@ -78,14 +78,12 @@ export default Thumbnails
 
 const Wrapper = styled.div`
   position: relative;
-  /* border-radius: 20px; */
   margin: auto;
   max-height: var(--thmubnails-banner-size);
   display: flex;
   justify-content: center;
   align-items: center;
   max-width: 100%;
-  /* background-color:blue; */
 `
 const BackwardButton = styled.button`
   position: sticky;

@@ -100,7 +100,6 @@ const StyledButton = styled.button`
   background-color: yellow;
   font-weight:bold;
   color: white;
-  /* background-color:lightgray; */
 `
 const StyledInput = styled.input`
   margin: 10px 10px 10px 0;

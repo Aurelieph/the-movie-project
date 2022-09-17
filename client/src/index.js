@@ -13,7 +13,6 @@ root.render(
   <Auth0Provider
     domain="what2watch.us.auth0.com"
     clientId="DDPI68uXElQd5iJohJk1GVVExvlrHsVP"
-    // redirectUri="http://localhost:3000/"
     redirectUri={window.location.origin}
   >
     <GlobalProvider>
